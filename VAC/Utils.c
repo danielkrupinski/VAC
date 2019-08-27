@@ -13,3 +13,9 @@ INT Utils_getProtect(BYTE a)
     default: return -1;
     }
 }
+
+// E8 ? ? ? ? 89 7E 04 (relative jump)
+PVOID Utils_heapAlloc(SIZE_T size)
+{
+    return HeapAlloc(GetProcessHeap(), 0, size);
+}
