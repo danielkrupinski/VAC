@@ -25,3 +25,14 @@ BOOL Utils_heapFree(LPVOID memory)
 {
     return HeapFree(GetProcessHeap(), 0, memory);
 }
+
+// 83 61 10 00 83 61 14 00
+VOID Utils_initializeMD5(DWORD* md5)
+{
+    md5[0] = 0x67452301;
+    md5[1] = 0xEFCDAB89;
+    md5[2] = 0x98BADCFE;
+    md5[3] = 0x10325476;
+    md5[4] = 0;
+    md5[5] = 0;
+}

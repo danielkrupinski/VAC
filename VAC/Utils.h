@@ -10,3 +10,6 @@ LPVOID Utils_heapAlloc(SIZE_T);
 
 // E8 ? ? ? ? 5B (relative jump)
 BOOL Utils_heapFree(LPVOID);
+
+// 83 61 10 00 83 61 14 00
+VOID Utils_initializeMD5(DWORD*);
