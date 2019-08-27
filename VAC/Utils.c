@@ -15,7 +15,13 @@ INT Utils_getProtect(BYTE a)
 }
 
 // E8 ? ? ? ? 89 7E 04 (relative jump)
-PVOID Utils_heapAlloc(SIZE_T size)
+LPVOID Utils_heapAlloc(SIZE_T size)
 {
     return HeapAlloc(GetProcessHeap(), 0, size);
+}
+
+// E8 ? ? ? ? 5B (relative jump)
+BOOL Utils_heapFree(LPVOID memory)
+{
+    return HeapFree(GetProcessHeap(), 0, memory);
 }

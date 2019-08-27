@@ -6,4 +6,7 @@
 INT Utils_getProtect(BYTE);
 
 // E8 ? ? ? ? 89 7E 04 (relative jump)
-PVOID Utils_heapAlloc(SIZE_T);
+LPVOID Utils_heapAlloc(SIZE_T);
+
+// E8 ? ? ? ? 5B (relative jump)
+BOOL Utils_heapFree(LPVOID);
