@@ -63,3 +63,12 @@ INT Utils_strncmp(PBYTE str1, PBYTE str2, SIZE_T count)
             return str1[i] - str2[i];
     return 0;
 }
+
+// 52 85 C9
+LPVOID Util_heapReAlloc(LPVOID memory, SIZE_T size)
+{
+    if (memory)
+        return HeapReAlloc(GetProcessHeap(), 0, memory, size);
+    else
+        return HeapAlloc(GetProcessHeap(), 0, size);
+}

@@ -22,3 +22,6 @@ PBYTE Utils_memset(PBYTE, INT, INT);
 
 // 8B 44 24 0C 53
 INT Utils_strncmp(PBYTE, PBYTE, SIZE_T);
+
+// 52 85 C9
+LPVOID Util_heapReAlloc(LPVOID, SIZE_T);
