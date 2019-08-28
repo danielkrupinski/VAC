@@ -36,3 +36,12 @@ VOID Utils_initializeMD5(DWORD* md5)
     md5[4] = 0;
     md5[5] = 0;
 }
+
+// E8 ? ? ? ? 6A 58
+BYTE* Utils_memcpy(PBYTE dest, PBYTE src, INT num)
+{
+    for (INT i = 0; i < num; i++)
+        dest[i] = src[i];
+
+    return dest;
+}
