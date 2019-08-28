@@ -37,7 +37,7 @@ VOID Utils_initializeMD5(DWORD* md5)
     md5[5] = 0;
 }
 
-// E8 ? ? ? ? 6A 58
+// E8 ? ? ? ? 6A 58 (relative jump)
 PBYTE Utils_memcpy(PBYTE dest, PBYTE src, INT size)
 {
     for (INT i = 0; i < size; i++)
