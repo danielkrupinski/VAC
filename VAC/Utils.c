@@ -54,3 +54,12 @@ PBYTE Utils_memset(PBYTE dest, INT value, INT size)
 
     return dest;
 }
+
+// 8B 44 24 0C 53
+INT Utils_strncmp(PBYTE str1, PBYTE str2, SIZE_T count)
+{
+    for (INT i = 0; i < count; i++)
+        if (str1[i] != str2[i])
+            return str1[i] - str2[i];
+    return 0;
+}

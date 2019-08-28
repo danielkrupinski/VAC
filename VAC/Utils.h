@@ -19,3 +19,6 @@ PBYTE Utils_memcpy(PBYTE, PBYTE, INT);
 
 // 8B 4C 24 0C 85 C9
 PBYTE Utils_memset(PBYTE, INT, INT);
+
+// 8B 44 24 0C 53
+INT Utils_strncmp(PBYTE, PBYTE, SIZE_T);
