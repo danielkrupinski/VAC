@@ -65,10 +65,20 @@ INT Utils_strncmp(PBYTE str1, PBYTE str2, SIZE_T count)
 }
 
 // 52 85 C9
-LPVOID Util_heapReAlloc(LPVOID memory, SIZE_T size)
+LPVOID Utils_heapReAlloc(LPVOID memory, SIZE_T size)
 {
     if (memory)
         return HeapReAlloc(GetProcessHeap(), 0, memory, size);
     else
         return HeapAlloc(GetProcessHeap(), 0, size);
+}
+
+// 33 C0 38 01
+INT Utils_strlen(PCSTR a1)
+{
+    INT result = 0;
+    while (*a1)
+        result++;
+
+    return result;
 }

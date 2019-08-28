@@ -24,4 +24,7 @@ PBYTE Utils_memset(PBYTE, INT, INT);
 INT Utils_strncmp(PBYTE, PBYTE, SIZE_T);
 
 // 52 85 C9
-LPVOID Util_heapReAlloc(LPVOID, SIZE_T);
+LPVOID Utils_heapReAlloc(LPVOID, SIZE_T);
+
+// 33 C0 38 01
+INT Utils_strlen(PCSTR);
