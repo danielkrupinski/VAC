@@ -31,3 +31,6 @@ INT Utils_strlen(PCSTR);
 
 // E8 ? ? ? ? A3 ? ? ? ? (relative jump)
 UINT Utils_crc32ForByte(INT, PBYTE, UINT);
+
+// FF 74 24 04
+INT Utils_compareStringW(PCNZWCH, PCNZWCH, INT);

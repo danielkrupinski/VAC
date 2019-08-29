@@ -98,3 +98,9 @@ UINT Utils_crc32ForByte(INT size, PBYTE data, UINT hash)
     }
     return hash;
 }
+
+// FF 74 24 04
+INT Utils_compareStringW(PCNZWCH string1 , PCNZWCH string2, INT count)
+{
+    return CompareStringW(LOCALE_SYSTEM_DEFAULT, NORM_IGNORECASE, string1, count, string2, count) - CSTR_EQUAL;
+}
