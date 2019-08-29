@@ -212,3 +212,26 @@ IceKey* Utils_createIceKey(IceKey* iceKey, INT n)
     iceKey->keys = Utils_heapAlloc(192);
     return iceKey;
 }
+
+// E8 ? ? ? ? EB 68
+VOID Utils_scheduleIceBuild(IceKey* iceKey, PUSHORT kb, INT n, CONST PINT keyrot)
+{
+    for (INT i = 0; i < 8; i++) {
+        IceSubkey* iceSubkey = &iceKey->keys[n + i];
+
+        for (INT j = 0; j < 3; j++)
+            iceSubkey->val[j] = 0;
+
+        for (INT j = 0; j < 15; j++) {
+            PULONG currentSubkey = &iceSubkey->val[j % 3];
+
+            for (INT k = 0; k < 4; k++) {
+                PUSHORT currentKb = &kb[(keyrot[i] + k) & 3];
+                CONST INT bit = *currentKb & 1;
+
+                *currentSubkey = (*currentSubkey << 1) | bit;
+                *currentKb = (*currentKb >> 1) | ((bit ^ 1) << 15);
+            }
+        }
+    }
+}

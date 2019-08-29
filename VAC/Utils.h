@@ -59,3 +59,6 @@ typedef struct IceKey {
 
 // 56 57 33 FF 8B F1
 IceKey* Utils_createIceKey(IceKey*, INT);
+
+// E8 ? ? ? ? EB 68
+VOID Utils_scheduleIceBuild(IceKey*, PUSHORT, INT, CONST PINT);
