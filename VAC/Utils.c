@@ -105,6 +105,7 @@ INT Utils_compareStringW(PCNZWCH string1 , PCNZWCH string2, INT count)
     return CompareStringW(LOCALE_SYSTEM_DEFAULT, NORM_IGNORECASE, string1, count, string2, count) - CSTR_EQUAL;
 }
 
+// BA ? ? ? ? 85 C9
 static CONST UINT icePbox[32] = {
     0x00000001, 0x00000080, 0x00000400, 0x00002000,
     0x00080000, 0x00200000, 0x01000000, 0x40000000,
