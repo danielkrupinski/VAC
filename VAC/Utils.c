@@ -150,3 +150,15 @@ UINT Utils_gfMul(UINT a, UINT b, UINT m)
 
     return result;
 }
+
+// E8 ? ? ? ? 8B C8 (relative jump)
+UINT Utils_gfExp7(UINT b, UINT m)
+{
+    if (!b)
+        return 0;
+
+    UINT x = gf_mult(b, b, m);
+    x = gf_mult(b, x, m);
+    x = gf_mult(x, x, m);
+    return gf_mult(b, x, m);
+}

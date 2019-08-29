@@ -41,3 +41,5 @@ UINT Utils_icePerm32(UINT);
 // E8 ? ? ? ? 59 5F (relative jump)
 UINT Utils_gfMul(UINT, UINT, UINT);
 
+// E8 ? ? ? ? 8B C8 (relative jump)
+UINT Utils_gfExp7(UINT, UINT);
