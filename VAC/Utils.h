@@ -47,5 +47,15 @@ UINT Utils_gfExp7(UINT, UINT);
 // E8 ? ? ? ? 89 3D ? ? ? ? (relative jump)
 VOID Utils_iceInitSboxes(VOID);
 
+typedef struct IceSubkey {
+    UINT val[3];
+} IceSubkey;
+
+typedef struct IceKey {
+    INT size;
+    INT rounds;
+    IceSubkey* keys;
+} IceKey;
+
 // 56 57 33 FF 8B F1
-PDWORD Utils_createIceKey(PDWORD, INT);
+IceKey* Utils_createIceKey(IceKey*, INT);

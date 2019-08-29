@@ -200,15 +200,15 @@ VOID Utils_iceInitSboxes(VOID)
 }
 
 // 56 57 33 FF 8B F1
-PDWORD Utils_createIceKey(PDWORD iceKey, INT n)
+IceKey* Utils_createIceKey(IceKey* iceKey, INT n)
 {
     if (!iceSboxesInitialised) {
         Utils_iceInitSboxes();
         iceSboxesInitialised = TRUE;
     }
 
-    iceKey[0] = 1;
-    iceKey[1] = 16;
-    iceKey[2] = (DWORD)Utils_heapAlloc(192);
+    iceKey->size = 1;
+    iceKey->rounds = 16;
+    iceKey->keys = Utils_heapAlloc(192);
     return iceKey;
 }
