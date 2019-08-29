@@ -130,3 +130,22 @@ UINT Utils_icePerm32(UINT x)
 
     return result;
 }
+
+// E8 ? ? ? ? 59 5F (relative jump)
+UINT Utils_gfMul(UINT a, UINT b, UINT m)
+{
+    UINT result = 0;
+
+    while (b) {
+        if (b & 1)
+            result ^= a;
+
+        a <<= 1;
+        b >>= 1;
+
+        if (a >= 256)
+            a ^= m;
+    }
+
+    return result;
+}

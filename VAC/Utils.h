@@ -37,3 +37,7 @@ INT Utils_compareStringW(PCNZWCH, PCNZWCH, INT);
 
 // 33 C0 BA ? ? ? ?
 UINT Utils_icePerm32(UINT);
+
+// E8 ? ? ? ? 59 5F (relative jump)
+UINT Utils_gfMul(UINT, UINT, UINT);
+
