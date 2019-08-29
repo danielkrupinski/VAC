@@ -46,3 +46,6 @@ UINT Utils_gfExp7(UINT, UINT);
 
 // E8 ? ? ? ? 89 3D ? ? ? ? (relative jump)
 VOID Utils_iceInitSboxes(VOID);
+
+// 56 57 33 FF 8B F1
+PDWORD Utils_createIceKey(PDWORD, INT);

@@ -198,3 +198,17 @@ VOID Utils_iceInitSboxes(VOID)
         iceSbox[3][i] = Utils_icePerm32(x);
     }
 }
+
+// 56 57 33 FF 8B F1
+PDWORD Utils_createIceKey(PDWORD iceKey, INT n)
+{
+    if (!iceSboxesInitialised) {
+        Utils_iceInitSboxes();
+        iceSboxesInitialised = TRUE;
+    }
+
+    iceKey[0] = 1;
+    iceKey[1] = 16;
+    iceKey[2] = (DWORD)Utils_heapAlloc(192);
+    return iceKey;
+}
