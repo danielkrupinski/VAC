@@ -157,8 +157,44 @@ UINT Utils_gfExp7(UINT b, UINT m)
     if (!b)
         return 0;
 
-    UINT x = gf_mult(b, b, m);
-    x = gf_mult(b, x, m);
-    x = gf_mult(x, x, m);
-    return gf_mult(b, x, m);
+    UINT x = Utils_gfMul(b, b, m);
+    x = Utils_gfMul(b, x, m);
+    x = Utils_gfMul(x, x, m);
+    return Utils_gfMul(b, x, m);
+}
+
+static UINT iceSbox[4][1024];
+static BOOL iceSboxesInitialised = 0;
+
+// E8 ? ? ? ? 89 3D ? ? ? ? (relative jump)
+VOID Utils_iceInitSboxes(VOID)
+{
+    static CONST INT iceSmod[4][4] = {
+        { 333, 313, 505, 369 },
+        { 379, 375, 319, 391 },
+        { 361, 445, 451, 397 },
+        { 397, 425, 395, 505 } };
+
+    static CONST INT iceSxor[4][4] = {
+        { 0x83, 0x85, 0x9B, 0xCD },
+        { 0xCC, 0xA7, 0xAD, 0x41 },
+        { 0x4B, 0x2E, 0xD4, 0x33 },
+        { 0xEA, 0xCB, 0x2E, 0x04 } };
+
+    for (INT i = 0; i < 1024; i++) {
+        CONST INT col = (i >> 1) & 0xFF;
+        CONST INT row = (i & 1) | ((i & 0x200) >> 8);
+
+        UINT x = Utils_gfExp7(col ^ iceSxor[0][row], iceSmod[0][row]) << 24;
+        iceSbox[0][i] = Utils_icePerm32(x);
+
+        x = Utils_gfExp7(col ^ iceSxor[1][row], iceSmod[1][row]) << 16;
+        iceSbox[1][i] = Utils_icePerm32(x);
+
+        x = Utils_gfExp7(col ^ iceSxor[2][row], iceSmod[2][row]) << 8;
+        iceSbox[2][i] = Utils_icePerm32(x);
+
+        x = Utils_gfExp7(col ^ iceSxor[3][row], iceSmod[3][row]);
+        iceSbox[3][i] = Utils_icePerm32(x);
+    }
 }

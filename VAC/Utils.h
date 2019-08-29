@@ -43,3 +43,6 @@ UINT Utils_gfMul(UINT, UINT, UINT);
 
 // E8 ? ? ? ? 8B C8 (relative jump)
 UINT Utils_gfExp7(UINT, UINT);
+
+// E8 ? ? ? ? 89 3D ? ? ? ? (relative jump)
+VOID Utils_iceInitSboxes(VOID);
