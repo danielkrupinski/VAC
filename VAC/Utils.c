@@ -105,7 +105,7 @@ INT Utils_compareStringW(PCNZWCH string1 , PCNZWCH string2, INT count)
     return CompareStringW(LOCALE_SYSTEM_DEFAULT, NORM_IGNORECASE, string1, count, string2, count) - CSTR_EQUAL;
 }
 
-static const UINT icePbox[32] = {
+static CONST UINT icePbox[32] = {
     0x00000001, 0x00000080, 0x00000400, 0x00002000,
     0x00080000, 0x00200000, 0x01000000, 0x40000000,
     0x00000008, 0x00000020, 0x00000100, 0x00004000,
@@ -115,4 +115,18 @@ static const UINT icePbox[32] = {
     0x00000002, 0x00000040, 0x00000800, 0x00001000,
     0x00040000, 0x00100000, 0x02000000, 0x80000000 };
 
+// 33 C0 BA ? ? ? ?
+UINT Utils_icePerm32(UINT x)
+{
+    UINT result = 0;
+    CONST UINT* pbox = icePbox;
 
+    while (x) {
+        if (x & 1)
+            result |= *pbox;
+        pbox++;
+        x >>= 1;
+    }
+
+    return result;
+}

@@ -34,3 +34,6 @@ UINT Utils_crc32ForByte(PBYTE, INT, UINT);
 
 // FF 74 24 04
 INT Utils_compareStringW(PCNZWCH, PCNZWCH, INT);
+
+// 33 C0 BA ? ? ? ?
+UINT Utils_icePerm32(UINT);
