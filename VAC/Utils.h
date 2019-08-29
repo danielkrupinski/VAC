@@ -30,7 +30,7 @@ LPVOID Utils_heapReAlloc(LPVOID, SIZE_T);
 INT Utils_strlen(PCSTR);
 
 // E8 ? ? ? ? A3 ? ? ? ? (relative jump)
-UINT Utils_crc32ForByte(INT, PBYTE, UINT);
+UINT Utils_crc32ForByte(PBYTE, INT, UINT);
 
 // FF 74 24 04
 INT Utils_compareStringW(PCNZWCH, PCNZWCH, INT);

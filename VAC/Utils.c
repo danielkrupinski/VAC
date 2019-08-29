@@ -84,7 +84,7 @@ INT Utils_strlen(PCSTR a1)
 }
 
 // E8 ? ? ? ? A3 ? ? ? ? (relative jump)
-UINT Utils_crc32ForByte(INT size, PBYTE data, UINT hash)
+UINT Utils_crc32ForByte(PBYTE data, INT size, UINT hash)
 {
     for (INT i = 0; i < size; i++) {
         hash ^= data[i] << 24;
