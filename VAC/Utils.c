@@ -275,3 +275,18 @@ BOOL Utils_destroyIceKey(IceKey* iceKey)
 
     return Utils_heapFree(iceKey->keys);
 }
+
+// E8 ? ? ? ? 8B 4C 24 14 (relative jump) or E8 ? ? ? ? 8B 4D 08 (relative jump)
+UINT Utils_iceF(UINT p, const IceSubkey* sk)
+{
+    UINT tl = ((p >> 16) & 0x3FF) | (((p >> 14) | (p << 18)) & 0xFFC00);
+    UINT tr = (p & 0x3FF) | ((p << 2) & 0xFFC00);
+
+    UINT al = sk->val[2] & (tl ^ tr);
+    UINT ar = al ^ tr ^ tl;
+
+    al ^= sk->val[0];
+    ar ^= sk->val[1];
+
+    return iceSbox[0][al >> 10] | iceSbox[1][al & 0x3FF] | iceSbox[2][ar >> 10] | iceSbox[3][ar & 0x3FF];
+}

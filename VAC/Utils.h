@@ -68,3 +68,6 @@ VOID Utils_setIce(IceKey*, PCSTR);
 
 // 53 33 DB 56 8B F3
 BOOL Utils_destroyIceKey(IceKey*);
+
+// E8 ? ? ? ? 8B 4C 24 14 (relative jump) or E8 ? ? ? ? 8B 4D 08 (relative jump)
+UINT Utils_iceF(UINT, const IceSubkey*);
