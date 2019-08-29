@@ -310,3 +310,23 @@ VOID Utils_decryptIce(IceKey* iceKey, PCSTR ctext, PSTR ptext)
         l >>= 8;
     }
 }
+
+// E8 ? ? ? ? 83 C6 08 (relative jump)
+VOID Utils_encryptIce(IceKey* iceKey, PCSTR ptext, PSTR ctext)
+{
+    UINT l = ctext[3] | ((ctext[2] | ((ctext[1] | (ctext[0] << 8)) << 8)) << 8);
+    UINT r = ctext[7] | ((ctext[6] | ((ctext[5] | (ctext[4] << 8)) << 8)) << 8);
+
+    for (INT i = 0; i < iceKey->rounds; i += 2) {
+        l ^= Utils_iceF(r, &iceKey->keys[i]);
+        r ^= Utils_iceF(l, &iceKey->keys[i + 1]);
+    }
+
+    for (INT i = 0; i < 4; i++) {
+        ctext[3 - i] = r & 0xff;
+        ctext[7 - i] = l & 0xff;
+
+        r >>= 8;
+        l >>= 8;
+    }
+}

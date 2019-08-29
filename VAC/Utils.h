@@ -74,3 +74,6 @@ UINT Utils_iceF(UINT, const IceSubkey*);
 
 // E8 ? ? ? ? 83 C7 08 (relative jump)
 VOID Utils_decryptIce(IceKey*, PCSTR, PSTR);
+
+// E8 ? ? ? ? 83 C6 08 (relative jump)
+VOID Utils_encryptIce(IceKey*, PCSTR, PSTR);
