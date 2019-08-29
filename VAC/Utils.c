@@ -213,8 +213,8 @@ IceKey* Utils_createIceKey(IceKey* iceKey, INT n)
     return iceKey;
 }
 
-// E8 ? ? ? ? EB 68
-VOID Utils_scheduleIceBuild(IceKey* iceKey, PUSHORT kb, INT n, CONST PINT keyrot)
+// E8 ? ? ? ? EB 68 (relative jump)
+VOID Utils_scheduleIceBuild(IceKey* iceKey, PUSHORT kb, INT n, CONST INT* keyrot)
 {
     for (INT i = 0; i < 8; i++) {
         IceSubkey* iceSubkey = &iceKey->keys[n + i];
@@ -233,5 +233,33 @@ VOID Utils_scheduleIceBuild(IceKey* iceKey, PUSHORT kb, INT n, CONST PINT keyrot
                 *currentKb = (*currentKb >> 1) | ((bit ^ 1) << 15);
             }
         }
+    }
+}
+
+// E8 ? ? ? ? 2B FE (relative jump)
+VOID Utils_setIce(IceKey* iceKey, PCSTR key)
+{
+    static CONST INT iceKeyrot[16] = {
+         0, 1, 2, 3, 2, 1, 3, 0,
+         1, 3, 2, 0, 3, 1, 0, 2 };
+
+    if (iceKey->rounds == 8) {
+        USHORT kb[4];
+
+        for (INT i = 0; i < 4; i++)
+            kb[3 - i] = (key[i * 2] << 8) | key[i * 2 + 1];
+
+        Utils_scheduleIceBuild(iceKey, kb, 0, iceKeyrot);
+        return;
+    }
+
+    for (INT i = 0; i < iceKey->size; i++) {
+        USHORT kb[4];
+
+        for (INT j = 0; j < 4; j++)
+            kb[3 - j] = (key[i * 8 + j * 2] << 8) | key[i * 8 + j * 2 + 1];
+
+        Utils_scheduleIceBuild(iceKey, kb, i * 8, iceKeyrot);
+        Utils_scheduleIceBuild(iceKey, kb, iceKey->rounds - 8 - i * 8, &iceKeyrot[8]);
     }
 }
