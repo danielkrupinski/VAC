@@ -28,3 +28,6 @@ LPVOID Utils_heapReAlloc(LPVOID, SIZE_T);
 
 // 33 C0 38 01
 INT Utils_strlen(PCSTR);
+
+// E8 ? ? ? ? A3 ? ? ? ? (relative jump)
+UINT Utils_crc32ForByte(INT, PBYTE, UINT);
