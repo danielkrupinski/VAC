@@ -65,3 +65,6 @@ VOID Utils_scheduleIceBuild(IceKey*, PUSHORT, INT, CONST INT*);
 
 // E8 ? ? ? ? 2B FE (relative jump)
 VOID Utils_setIce(IceKey*, PCSTR);
+
+// 53 33 DB 56 8B F3
+BOOL Utils_destroyIceKey(IceKey*);

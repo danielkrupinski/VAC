@@ -263,3 +263,15 @@ VOID Utils_setIce(IceKey* iceKey, PCSTR key)
         Utils_scheduleIceBuild(iceKey, kb, iceKey->rounds - 8 - i * 8, &iceKeyrot[8]);
     }
 }
+
+// 53 33 DB 56 8B F3
+BOOL Utils_destroyIceKey(IceKey* iceKey)
+{
+    for (INT i = 0; i < iceKey->rounds; i++)
+        for (INT j = 0; j < 3; j++)
+            iceKey->keys[i].val[j] = 0;
+
+    iceKey->rounds = iceKey->size = 0;
+
+    return Utils_heapFree(iceKey->keys);
+}
