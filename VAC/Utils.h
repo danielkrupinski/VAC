@@ -36,4 +36,4 @@ UINT Utils_crc32ForByte(PBYTE, INT, UINT);
 INT Utils_compareStringW(PCNZWCH, PCNZWCH, INT);
 
 // E8 ? ? ? ? 59 59 33 F6 (relative jump)
-BOOL Utils_encryptWithIce(INT, PSTR, INT, PCSTR);
+BOOL Utils_iceEncrypt(INT, PSTR, INT, PCSTR);

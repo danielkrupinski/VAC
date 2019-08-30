@@ -107,7 +107,7 @@ INT Utils_compareStringW(PCNZWCH string1 , PCNZWCH string2, INT count)
 }
 
 // E8 ? ? ? ? 59 59 33 F6 (relative jump)
-BOOL Utils_encryptWithIce(INT n, PSTR text, INT _, PCSTR key)
+BOOL Utils_iceEncrypt(INT n, PSTR text, INT _, PCSTR key)
 {
     IceKey iceKey;
     Ice_createKey(&iceKey, n);
