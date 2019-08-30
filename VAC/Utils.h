@@ -54,3 +54,6 @@ extern UINT winapiFunctionsHash;
 
 // E8 ? ? ? ? B3 01 (relative jump)
 BOOLEAN Utils_calculateWinapiFunctionsHash(VOID);
+
+// 56 8B F1 56
+LPCWSTR Utils_skipPath(LPCWSTR);

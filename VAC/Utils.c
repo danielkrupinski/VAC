@@ -160,3 +160,13 @@ BOOLEAN Utils_calculateWinapiFunctionsHash(VOID)
     winapiFunctionsHash = Utils_crc32ForByte((PBYTE)winapiFunctions, sizeof(winapiFunctions), winapiFunctionsHash);
     return TRUE;
 }
+
+// 56 8B F1 56
+LPCWSTR Utils_skipPath(LPCWSTR string)
+{
+    for (INT i = lstrlenW(string); i > 1; i--) {
+        if (string[i] == L'\\')
+            return string + i;
+    }
+    return string;
+}
