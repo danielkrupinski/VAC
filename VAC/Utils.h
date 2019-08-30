@@ -35,48 +35,5 @@ UINT Utils_crc32ForByte(PBYTE, INT, UINT);
 // FF 74 24 04
 INT Utils_compareStringW(PCNZWCH, PCNZWCH, INT);
 
-// 33 C0 BA ? ? ? ?
-UINT Utils_icePerm32(UINT);
-
-// E8 ? ? ? ? 59 5F (relative jump)
-UINT Utils_gfMul(UINT, UINT, UINT);
-
-// E8 ? ? ? ? 8B C8 (relative jump)
-UINT Utils_gfExp7(UINT, UINT);
-
-// E8 ? ? ? ? 89 3D ? ? ? ? (relative jump)
-VOID Utils_iceInitSboxes(VOID);
-
-typedef struct IceSubkey {
-    UINT val[3];
-} IceSubkey;
-
-typedef struct IceKey {
-    INT size;
-    INT rounds;
-    IceSubkey* keys;
-} IceKey;
-
-// 56 57 33 FF 8B F1
-IceKey* Utils_createIceKey(IceKey*, INT);
-
-// E8 ? ? ? ? EB 68 (relative jump)
-VOID Utils_scheduleIceBuild(IceKey*, PUSHORT, INT, CONST INT*);
-
-// E8 ? ? ? ? 2B FE (relative jump)
-VOID Utils_setIce(IceKey*, PCSTR);
-
-// 53 33 DB 56 8B F3
-BOOL Utils_destroyIceKey(IceKey*);
-
-// E8 ? ? ? ? 8B 4C 24 14 (relative jump) or E8 ? ? ? ? 8B 4D 08 (relative jump)
-UINT Utils_iceF(UINT, const IceSubkey*);
-
-// E8 ? ? ? ? 83 C7 08 (relative jump)
-VOID Utils_decryptIce(IceKey*, PCSTR, PSTR);
-
-// E8 ? ? ? ? 83 C6 08 (relative jump)
-VOID Utils_encryptIce(IceKey*, PCSTR, PSTR);
-
 // E8 ? ? ? ? 59 59 33 F6 (relative jump)
 BOOL Utils_encryptWithIce(INT, PSTR, INT, PCSTR);

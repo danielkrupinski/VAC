@@ -155,6 +155,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Encryption\Ice.c" />
     <ClCompile Include="Utils.c" />
   </ItemGroup>
   <ItemGroup>
