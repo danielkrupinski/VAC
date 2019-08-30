@@ -37,3 +37,6 @@ INT Utils_compareStringW(PCNZWCH, PCNZWCH, INT);
 
 // E8 ? ? ? ? 59 59 33 F6 (relative jump)
 BOOL Utils_iceEncrypt(INT, PSTR, INT, PCSTR);
+
+// E8 ? ? ? ? 83 4C 24 (relative jump)
+BOOL Utils_iceDecrypt(INT, PSTR, INT, PCSTR);

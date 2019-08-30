@@ -118,3 +118,17 @@ BOOL Utils_iceEncrypt(INT n, PSTR text, INT _, PCSTR key)
     }
     return Ice_destroyKey(&iceKey);
 }
+
+// E8 ? ? ? ? 83 4C 24 (relative jump)
+BOOL Utils_iceDecrypt(INT n, PSTR text, INT size, PCSTR key)
+{
+    IceKey iceKey;
+    Ice_createKey(&iceKey, n);
+    Ice_set(&iceKey, key);
+
+    for (INT i = 0; i < size / 8; i++) {
+        Ice_decrypt(&iceKey, text, text);
+        text += 8;
+    }
+    return Ice_destroyKey(&iceKey);
+}
