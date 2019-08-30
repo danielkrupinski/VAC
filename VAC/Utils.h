@@ -77,3 +77,6 @@ VOID Utils_decryptIce(IceKey*, PCSTR, PSTR);
 
 // E8 ? ? ? ? 83 C6 08 (relative jump)
 VOID Utils_encryptIce(IceKey*, PCSTR, PSTR);
+
+// E8 ? ? ? ? 59 59 33 F6 (relative jump)
+BOOL Utils_encryptWithIce(INT, PSTR, INT, PCSTR);

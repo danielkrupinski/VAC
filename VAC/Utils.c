@@ -330,3 +330,16 @@ VOID Utils_encryptIce(IceKey* iceKey, PCSTR ptext, PSTR ctext)
         l >>= 8;
     }
 }
+
+// E8 ? ? ? ? 59 59 33 F6 (relative jump)
+BOOL Utils_encryptWithIce(INT n, PSTR text, INT _, PCSTR key)
+{
+    IceKey iceKey;
+    Utils_createIceKey(&iceKey, n);
+    Utils_setIce(&iceKey, key);
+    for (INT i = 0; i < 512; i++) {
+        Utils_encryptIce(&iceKey, text, text);
+        text += 8;
+    }
+    return Utils_destroyIceKey(&iceKey);
+}
