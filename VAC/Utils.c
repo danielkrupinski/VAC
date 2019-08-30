@@ -136,3 +136,4 @@ BOOL Utils_iceDecrypt(INT n, PSTR text, INT size, PCSTR key)
 PVOID winapiFunctions[200];
 HMODULE moduleHandles[16];
 INT winapiFunctionsCount;
+INT moduleHandlesCount;
