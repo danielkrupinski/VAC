@@ -42,3 +42,4 @@ BOOL Utils_iceEncrypt(INT, PSTR, INT, PCSTR);
 BOOL Utils_iceDecrypt(INT, PSTR, INT, PCSTR);
 
 extern PVOID winapiFunctions[200];
+extern HMODULE moduleHandles[16];
