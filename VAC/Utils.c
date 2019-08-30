@@ -138,3 +138,16 @@ HMODULE moduleHandles[16];
 INT winapiFunctionsCount;
 INT moduleHandlesCount;
 BOOL(WINAPI* freeLibrary)(HMODULE);
+
+// E8 ? ? ? ? 8B 45 F0 (relative jump)
+VOID Utils_resetFunctionsAndModuleHandles(VOID)
+{
+    for (INT i = 0; i < moduleHandlesCount; i++) {
+        freeLibrary(moduleHandles[i]);
+        moduleHandles[i] = NULL;
+    }
+    moduleHandlesCount = 0;
+
+    Utils_memset(winapiFunctions, 0, 800);
+    winapiFunctionsCount = 0;
+}

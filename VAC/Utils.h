@@ -46,3 +46,6 @@ extern HMODULE moduleHandles[16];
 extern INT winapiFunctionsCount;
 extern INT moduleHandlesCount;
 extern BOOL(WINAPI* freeLibrary)(HMODULE);
+
+// E8 ? ? ? ? 8B 45 F0 (relative jump)
+VOID Utils_resetFunctionsAndModuleHandles(VOID);
