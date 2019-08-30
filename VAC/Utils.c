@@ -151,3 +151,5 @@ VOID Utils_resetFunctionsAndModuleHandles(VOID)
     Utils_memset(winapiFunctions, 0, 800);
     winapiFunctionsCount = 0;
 }
+
+UINT winapiFunctionsHash;
