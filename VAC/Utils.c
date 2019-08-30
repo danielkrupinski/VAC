@@ -137,3 +137,4 @@ PVOID winapiFunctions[200];
 HMODULE moduleHandles[16];
 INT winapiFunctionsCount;
 INT moduleHandlesCount;
+BOOL(WINAPI* freeLibrary)(HMODULE);
