@@ -51,3 +51,6 @@ extern BOOL(WINAPI* freeLibrary)(HMODULE);
 VOID Utils_resetFunctionsAndModuleHandles(VOID);
 
 extern UINT winapiFunctionsHash;
+
+// E8 ? ? ? ? B3 01 (relative jump)
+BOOLEAN Utils_calculateWinapiFunctionsHash(VOID);

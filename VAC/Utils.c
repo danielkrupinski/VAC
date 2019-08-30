@@ -148,8 +148,15 @@ VOID Utils_resetFunctionsAndModuleHandles(VOID)
     }
     moduleHandlesCount = 0;
 
-    Utils_memset(winapiFunctions, 0, 800);
+    Utils_memset((PBYTE)winapiFunctions, 0, sizeof(winapiFunctions));
     winapiFunctionsCount = 0;
 }
 
 UINT winapiFunctionsHash;
+
+// E8 ? ? ? ? B3 01 (relative jump)
+BOOLEAN Utils_calculateWinapiFunctionsHash(VOID)
+{
+    winapiFunctionsHash = Utils_crc32ForByte((PBYTE)winapiFunctions, sizeof(winapiFunctions), winapiFunctionsHash);
+    return TRUE;
+}
