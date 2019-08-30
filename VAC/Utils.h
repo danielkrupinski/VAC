@@ -57,3 +57,6 @@ BOOLEAN Utils_calculateWinapiFunctionsHash(VOID);
 
 // 56 8B F1 56
 LPCWSTR Utils_skipPath(LPCWSTR);
+
+// E8 ? ? ? ? 32 C0 59 (relative jump)
+VOID Utils_copyStringW(PWSTR, PCWSTR, UINT);

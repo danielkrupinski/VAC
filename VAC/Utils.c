@@ -170,3 +170,12 @@ LPCWSTR Utils_skipPath(LPCWSTR string)
     }
     return string;
 }
+
+// E8 ? ? ? ? 32 C0 59 (relative jump)
+VOID Utils_copyStringW(PWSTR dest, PCWSTR src, UINT count)
+{
+    Utils_memcpy((PBYTE)dest, (PBYTE)src, count * sizeof(WCHAR));
+    UINT srcLength = lstrlenW(src);
+    if (count > srcLength)
+        Utils_memset((PBYTE)(dest + srcLength), 0, (count - srcLength) * sizeof(WCHAR));
+}
