@@ -40,3 +40,5 @@ BOOL Utils_iceEncrypt(INT, PSTR, INT, PCSTR);
 
 // E8 ? ? ? ? 83 4C 24 (relative jump)
 BOOL Utils_iceDecrypt(INT, PSTR, INT, PCSTR);
+
+extern PVOID winapiFunctions[200];

@@ -132,3 +132,5 @@ BOOL Utils_iceDecrypt(INT n, PSTR text, INT size, PCSTR key)
     }
     return Ice_destroyKey(&iceKey);
 }
+
+PVOID winapiFunctions[200];
