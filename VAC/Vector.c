@@ -29,3 +29,18 @@ VOID Vector_resize(Vector* vec, UINT size)
 
     vec->sizeInBits = size * sizeof(DWORD) * 8;
 }
+
+// E8 ? ? ? ? 8B CD (relative jump)
+VOID Vector_swap(Vector* vec1, Vector* vec2)
+{
+    CONST Vector temp = *vec1;
+    vec1->memory = vec2->memory;
+    vec1->allocationCount = vec2->allocationCount;
+    vec1->size = vec2->size;
+    vec1->sizeInBits = vec2->sizeInBits;
+
+    vec2->memory = temp.memory;
+    vec2->allocationCount = temp.allocationCount;
+    vec2->size = temp.size;
+    vec2->sizeInBits = temp.sizeInBits;
+}
