@@ -30,7 +30,7 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Encryption\Ice.c">
-      <Filter>Source Files</Filter>
+      <Filter>Encryption</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
