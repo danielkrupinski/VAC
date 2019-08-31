@@ -6,7 +6,7 @@ typedef struct Vector {
     DWORD* memory;
     INT allocationCount;
     INT size;
-    INT _unknown;
+    INT sizeInBits;
 } Vector;
 
 // E8 ? ? ? ? 8B 16 (relative jump)
