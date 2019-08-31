@@ -68,3 +68,5 @@ typedef struct Data {
     OSVERSIONINFOEXA osVersionInfo;
     DWORD systemVersion;
 } Data;
+
+extern Data data;

@@ -179,3 +179,5 @@ VOID Utils_copyStringW(PWSTR dest, PCWSTR src, UINT count)
     if (count > srcLength)
         Utils_memset((PBYTE)(dest + srcLength), 0, (count - srcLength) * sizeof(WCHAR));
 }
+
+extern Data data;
