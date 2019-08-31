@@ -67,6 +67,9 @@ typedef struct Data {
     SYSTEM_INFO systemInfo;
     OSVERSIONINFOEXA osVersionInfo;
     DWORD systemVersion;
+    BYTE _pad[10];
+    WCHAR systemDirectory[MAX_PATH];
+    WCHAR windowsDirectory[MAX_PATH];
 } Data;
 
 extern Data data;
