@@ -88,3 +88,5 @@ typedef struct WinApi {
     DWORD _pad6[18];
     VOID(WINAPI* GetSystemInfo)(LPSYSTEM_INFO);
 } WinApi;
+
+extern WinApi winApi;
