@@ -60,3 +60,11 @@ LPCWSTR Utils_skipPath(LPCWSTR);
 
 // E8 ? ? ? ? 32 C0 59 (relative jump)
 VOID Utils_copyStringW(PWSTR, PCWSTR, UINT);
+
+typedef struct Data {
+    DWORD currentProcessId;
+    DWORD currentThreadId;
+    SYSTEM_INFO systemInfo;
+    OSVERSIONINFOEXA osVersionInfo;
+    DWORD systemVersion;
+} Data;
