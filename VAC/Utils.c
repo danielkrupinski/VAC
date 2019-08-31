@@ -182,3 +182,25 @@ VOID Utils_copyStringW(PWSTR dest, PCWSTR src, UINT count)
 
 Data data;
 WinApi winApi;
+
+// 51 A1 ? ? ? ?
+BOOL Utils_getSystemInformation(VOID)
+{
+    data.currentProcessId = winApi.GetCurrentProcessId();
+    data.currentThreadId = winApi.GetCurrentThreadId();
+
+    if (data.currentProcessId && data.currentThreadId) {
+        winApi.GetSystemInfo(&data.systemInfo);
+
+        if (data.systemInfo.dwPageSize == 4096) {
+            data.osVersionInfo.dwOSVersionInfoSize = sizeof(OSVERSIONINFOEXA);
+
+            if (winApi.GetVersionExA(&data.osVersionInfo)) {
+                data.systemVersion = data.osVersionInfo.dwPlatformId | ((data.osVersionInfo.dwMajorVersion | (data.osVersionInfo.dwMinorVersion << 8)) << 8);
+                if (winApi.GetSystemDirectoryW(&data.systemDirectory, sizeof(data.systemDirectory)) && winApi.GetWindowsDirectoryW(&data.windowsDirectory, sizeof(data.windowsDirectory))) // VALVE PLS FIX - BUFFER SIZE SHOULD BE MAX_PATH - https://docs.microsoft.com/en-us/windows/win32/api/sysinfoapi/nf-sysinfoapi-getwindowsdirectoryw
+                    return TRUE;
+            }
+        }
+    }
+    return FALSE;
+}

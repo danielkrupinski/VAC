@@ -90,3 +90,6 @@ typedef struct WinApi {
 } WinApi;
 
 extern WinApi winApi;
+
+// 51 A1 ? ? ? ?
+BOOL Utils_getSystemInformation(VOID);
