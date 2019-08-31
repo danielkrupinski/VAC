@@ -35,5 +35,8 @@
     <ClCompile Include="Encryption\Ice.c">
       <Filter>Encryption</Filter>
     </ClCompile>
+    <ClCompile Include="Vector.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
