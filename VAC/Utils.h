@@ -73,3 +73,18 @@ typedef struct Data {
 } Data;
 
 extern Data data;
+
+typedef struct WinApi {
+    DWORD _pad[40];
+    UINT(WINAPI* GetSystemDirectoryW)(LPWSTR, UINT);
+    DWORD _pad2[39];
+    UINT(WINAPI* GetWindowsDirectoryW)(LPWSTR, UINT);
+    DWORD _pad3[27];
+    DWORD(WINAPI* GetCurrentProcessId)(VOID);
+    DWORD _pad4[21];
+    BOOL(WINAPI* GetVersionExA)(LPOSVERSIONINFOEXA);
+    DWORD _pad5;
+    DWORD(WINAPI* GetCurrentThreadId)(VOID);
+    DWORD _pad6[18];
+    VOID(WINAPI* GetSystemInfo)(LPSYSTEM_INFO);
+} WinApi;
