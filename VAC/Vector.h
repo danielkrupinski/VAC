@@ -8,3 +8,6 @@ typedef struct Vector {
     INT size;
     INT _unknown;
 } Vector;
+
+// E8 ? ? ? ? 8B 16 (relative jump)
+VOID Vector_ensureCapacity(Vector*, UINT);
