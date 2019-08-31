@@ -16,3 +16,16 @@ VOID Vector_ensureCapacity(Vector* vec, UINT capacity)
         Utils_heapFree(oldMemory);
     }
 }
+
+// 56 FF 74 24 08
+VOID Vector_resize(Vector* vec, UINT size)
+{
+    Vector_ensureCapacity(vec, size);
+
+    while (vec->size < size) {
+        vec->memory[vec->size] = 0;
+        vec->size++;
+    }
+
+    vec->sizeInBits = size * sizeof(DWORD) * 8;
+}

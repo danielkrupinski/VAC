@@ -4,10 +4,13 @@
 
 typedef struct Vector {
     DWORD* memory;
-    INT allocationCount;
-    INT size;
+    UINT allocationCount;
+    UINT size;
     INT sizeInBits;
 } Vector;
 
 // E8 ? ? ? ? 8B 16 (relative jump)
 VOID Vector_ensureCapacity(Vector*, UINT);
+
+// 56 FF 74 24 08
+VOID Vector_resize(Vector*, UINT);
