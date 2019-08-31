@@ -161,6 +161,7 @@
   <ItemGroup>
     <ClInclude Include="Encryption\Ice.h" />
     <ClInclude Include="Utils.h" />
+    <ClInclude Include="Vector.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
