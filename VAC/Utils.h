@@ -88,6 +88,15 @@ typedef struct WinApi {
     BOOL(WINAPI* CryptMsgGetParam)(HCRYPTMSG, DWORD, DWORD, void*, DWORD*);
     SC_HANDLE(WINAPI* OpenSCManagerA)(LPCSTR, LPCSTR, DWORD);
     BOOL(WINAPI* GetTokenInformation)(HANDLE, TOKEN_INFORMATION_CLASS, LPVOID, DWORD, PDWORD);
+    BOOL(WINAPI* CertCloseStore)(HCERTSTORE, DWORD);
+    int(WINAPI* WideCharToMultiByte)(UINT, DWORD, LPCWCH, int, LPSTR, int, LPCCH, LPBOOL);
+    BOOL(WINAPI* GetModuleHandleExA)(DWORD, LPCSTR, HMODULE*);
+    BOOL(WINAPI* SetFilePointerEx)(HANDLE, LARGE_INTEGER, PLARGE_INTEGER, DWORD);
+    HANDLE(WINAPI* FindFirstVolumeW)(LPWSTR, DWORD);
+    BOOL(WINAPI* Module32FirstW)(HANDLE, LPMODULEENTRY32W);
+    BOOL(WINAPI* CryptMsgClose)(HCRYPTMSG);
+    DWORD(APIENTRY* GetFileVersionInfoSizeA)(LPCSTR, LPDWORD);
+    HANDLE(WINAPI* GetCurrentProcess)(VOID);
     DWORD _pad[21];
     HANDLE(WINAPI* CreateToolhelp32Snapshot)(DWORD, DWORD);
     BOOL(WINAPI* ConvertSidToStringSidA)(PSID, LPSTR*);
