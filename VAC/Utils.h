@@ -88,11 +88,15 @@ typedef struct WinApi {
     UINT(WINAPI* GetWindowsDirectoryW)(LPWSTR, UINT);
     DWORD _pad3[27];
     DWORD(WINAPI* GetCurrentProcessId)(VOID);
-    DWORD _pad4[21];
+    DWORD _pad4[5];
+    BOOL(WINAPI* Process32FirstW)(HANDLE, LPPROCESSENTRY32W);
+    DWORD _pad4_[15];
     BOOL(WINAPI* GetVersionExA)(LPOSVERSIONINFOEXA);
     DWORD _pad5;
     DWORD(WINAPI* GetCurrentThreadId)(VOID);
-    DWORD _pad6[18];
+    DWORD _pad6[11];
+    BOOL(WINAPI* Process32NextW)(HANDLE, LPPROCESSENTRY32W);
+    DWORD _pad7[6];
     VOID(WINAPI* GetSystemInfo)(LPSYSTEM_INFO);
 } WinApi;
 
