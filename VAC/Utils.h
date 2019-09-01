@@ -1,6 +1,7 @@
 #pragma once
 
 #include <Windows.h>
+#include <TlHelp32.h>
 
 // 83 C8 FF 83 E9 00
 INT Utils_getProtect(BYTE);
