@@ -184,7 +184,7 @@ Data data;
 WinApi winApi;
 
 // 51 A1 ? ? ? ?
-BOOL Utils_getSystemInformation(VOID)
+BOOLEAN Utils_getSystemInformation(VOID)
 {
     data.currentProcessId = winApi.GetCurrentProcessId();
     data.currentThreadId = winApi.GetCurrentThreadId();
