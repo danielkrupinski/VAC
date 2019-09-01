@@ -75,7 +75,14 @@ typedef struct Data {
 extern Data data;
 
 typedef struct WinApi {
-    DWORD _pad[40];
+    DWORD _pad[33];
+    HANDLE(WINAPI* CreateToolhelp32Snapshot)(DWORD, DWORD);
+    BOOL(WINAPI* ConvertSidToStringSidA)(PSID, LPSTR*);
+    BOOL(WINAPI* WriteFile)(HANDLE, LPCVOID, DWORD, LPDWORD, LPOVERLAPPED);
+    NTSTATUS(NTAPI* NtWow64QueryVirtualMemory64)(HANDLE, PVOID64, DWORD, PVOID, ULONG64, PULONG64);
+    DWORD(WINAPI* GetModuleBaseNameA)(HANDLE, HMODULE, LPSTR, DWORD);
+    LSTATUS(APIENTRY* RegEnumKeyExA)(HKEY, DWORD, LPSTR, LPDWORD, LPDWORD, LPSTR, LPDWORD, PFILETIME);
+    DWORD(WINAPI* CertGetNameStringW)(PCCERT_CONTEXT, DWORD, DWORD, void*, LPWSTR, DWORD);
     UINT(WINAPI* GetSystemDirectoryW)(LPWSTR, UINT);
     DWORD _pad2[39];
     UINT(WINAPI* GetWindowsDirectoryW)(LPWSTR, UINT);
