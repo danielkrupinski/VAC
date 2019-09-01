@@ -84,7 +84,9 @@ typedef struct WinApi {
     LSTATUS(APIENTRY* RegEnumKeyExA)(HKEY, DWORD, LPSTR, LPDWORD, LPDWORD, LPSTR, LPDWORD, PFILETIME);
     DWORD(WINAPI* CertGetNameStringW)(PCCERT_CONTEXT, DWORD, DWORD, void*, LPWSTR, DWORD);
     UINT(WINAPI* GetSystemDirectoryW)(LPWSTR, UINT);
-    DWORD _pad2[39];
+    DWORD _pad2[27];
+    BOOL(WINAPI* CloseHandle)(HANDLE);
+    DWORD _pad2_[11];
     UINT(WINAPI* GetWindowsDirectoryW)(LPWSTR, UINT);
     DWORD _pad3[27];
     DWORD(WINAPI* GetCurrentProcessId)(VOID);
