@@ -197,7 +197,7 @@ BOOLEAN Utils_getSystemInformation(VOID)
 
             if (winApi.GetVersionExA(&data.osVersionInfo)) {
                 data.systemVersion = data.osVersionInfo.dwPlatformId | ((data.osVersionInfo.dwMajorVersion | (data.osVersionInfo.dwMinorVersion << 8)) << 8);
-                if (winApi.GetSystemDirectoryW(&data.systemDirectory, sizeof(data.systemDirectory)) && winApi.GetWindowsDirectoryW(&data.windowsDirectory, sizeof(data.windowsDirectory))) // VALVE PLS FIX - BUFFER SIZE SHOULD BE MAX_PATH - https://docs.microsoft.com/en-us/windows/win32/api/sysinfoapi/nf-sysinfoapi-getwindowsdirectoryw
+                if (winApi.GetSystemDirectoryW(data.systemDirectory, sizeof(data.systemDirectory)) && winApi.GetWindowsDirectoryW(data.windowsDirectory, sizeof(data.windowsDirectory))) // VALVE PLS FIX - BUFFER SIZE SHOULD BE MAX_PATH - https://docs.microsoft.com/en-us/windows/win32/api/sysinfoapi/nf-sysinfoapi-getwindowsdirectoryw
                     return TRUE;
             }
         }
