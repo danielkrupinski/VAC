@@ -1,6 +1,7 @@
 #pragma once
 
 #include <Windows.h>
+#include <iphlpapi.h>
 #include <Psapi.h>
 #include <SetupAPI.h>
 #include <TlHelp32.h>
@@ -142,6 +143,17 @@ typedef struct WinApi {
     BOOL(WINAPI* GetUserProfileDirectoryW)(HANDLE, LPWSTR, LPDWORD);
     PVOID(WINAPI* AddVectoredExceptionHandler)(ULONG, PVECTORED_EXCEPTION_HANDLER);
     VOID(WINAPI* GetSystemInfo)(LPSYSTEM_INFO);
+    DWORD(WINAPI* GetModuleFileNameA)(HMODULE, LPSTR, DWORD);
+    DWORD(WINAPI* WaitForSingleObject)(HANDLE, DWORD);
+    PVOID(WINAPI* SymFunctionTableAccess64)(HANDLE, DWORD64);
+    BOOL(WINAPI* SetupDiEnumDeviceInfo)(HDEVINFO, DWORD, PSP_DEVINFO_DATA);
+    VOID(WINAPI* SetLastError)(DWORD);
+    ULONG(WINAPI* GetUdpTable)(PMIB_UDPTABLE, PULONG, BOOL);
+    HLOCAL(WINAPI* LocalFree)(HLOCAL);
+    LSTATUS(APIENTRY* RegOpenKeyExA)(HKEY, LPCSTR, DWORD, REGSAM, PHKEY);
+    NTSTATUS(NTAPI* NtQuerySection)(HANDLE, DWORD, PVOID, ULONG, PULONG);
+    DWORD64(WINAPI* SymGetModuleBase64)(HANDLE, DWORD64);
+    DWORD(WINAPI* GetFileSize)(HANDLE, LPDWORD);
 } WinApi;
 
 extern WinApi winApi;
