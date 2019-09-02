@@ -135,6 +135,11 @@ typedef struct WinApi {
     DWORD _pad5;
     DWORD(WINAPI* GetCurrentThreadId)(VOID);
     DWORD _pad6[11];
+    BOOL(WINAPI* ReadProcessMemory)(HANDLE, LPCVOID, LPVOID, SIZE_T, SIZE_T*);
+    BOOL(WINAPI* VirtualFree)(LPVOID, SIZE_T, DWORD);
+    BOOL(WINAPI* CryptHashCertificate)(HCRYPTPROV_LEGACY, ALG_ID, DWORD, const BYTE*, DWORD, BYTE*, DWORD*);
+    LPVOID(WINAPI* VirtualAllocEx)(HANDLE, LPVOID, SIZE_T, DWORD, DWORD);
+    NTSTATUS(NTAPI* NtClose)(HANDLE);
     BOOL(WINAPI* Process32NextW)(HANDLE, LPPROCESSENTRY32W);
     BOOL(WINAPI* CertFreeCertificateContext)(PCCERT_CONTEXT);
     NTSTATUS(WINAPI* NtOpenDirectoryObject)(PHANDLE, ACCESS_MASK, POBJECT_ATTRIBUTES);
