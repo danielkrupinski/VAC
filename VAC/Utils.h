@@ -4,6 +4,7 @@
 #include <Psapi.h>
 #include <SetupAPI.h>
 #include <TlHelp32.h>
+#include <winternl.h>
 
 // 83 C8 FF 83 E9 00
 INT Utils_getProtect(BYTE);
@@ -133,7 +134,12 @@ typedef struct WinApi {
     DWORD(WINAPI* GetCurrentThreadId)(VOID);
     DWORD _pad6[11];
     BOOL(WINAPI* Process32NextW)(HANDLE, LPPROCESSENTRY32W);
-    DWORD _pad7[6];
+    BOOL(WINAPI* CertFreeCertificateContext)(PCCERT_CONTEXT);
+    NTSTATUS(WINAPI* NtOpenDirectoryObject)(PHANDLE, ACCESS_MASK, POBJECT_ATTRIBUTES);
+    VOID(WINAPI* GetSystemTimeAsFileTime)(LPFILETIME);
+    VOID(WINAPI* OutputDebugStringA)(LPCSTR);
+    BOOL(WINAPI* GetUserProfileDirectoryW)(HANDLE, LPWSTR, LPDWORD);
+    PVOID(WINAPI* AddVectoredExceptionHandler)(ULONG, PVECTORED_EXCEPTION_HANDLER);
     VOID(WINAPI* GetSystemInfo)(LPSYSTEM_INFO);
 } WinApi;
 
