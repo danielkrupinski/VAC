@@ -214,3 +214,12 @@ int Utils_wideCharToMultiByte(LPCWCH wideCharStr, LPSTR multiByteStr)
         multiByteStr[MAX_PATH - 1] = 0;
     return result;
 }
+
+// E8 ? ? ? ? 59 B0 01 (relative jump)
+VOID Utils_copyStringW2(PWSTR dest, PCWSTR src)
+{
+    Utils_memcpy((PBYTE)dest, (PBYTE)src, 512 * sizeof(WCHAR));
+    INT srcLength = lstrlenW(src);
+    if (srcLength < 512)
+        Utils_memset((PBYTE)(dest + srcLength), 0, (512 - srcLength) * sizeof(WCHAR));
+}

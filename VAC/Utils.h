@@ -151,3 +151,6 @@ BOOLEAN Utils_getSystemInformation(VOID);
 
 // A1 ? ? ? ? 53 56
 int Utils_wideCharToMultiByte(LPCWCH, LPSTR);
+
+// E8 ? ? ? ? 59 B0 01 (relative jump)
+VOID Utils_copyStringW2(PWSTR, PCWSTR);
