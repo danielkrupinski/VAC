@@ -1,6 +1,8 @@
 #pragma once
 
 #include <Windows.h>
+#include <Psapi.h>
+#include <SetupAPI.h>
 #include <TlHelp32.h>
 
 // 83 C8 FF 83 E9 00
@@ -97,7 +99,18 @@ typedef struct WinApi {
     BOOL(WINAPI* CryptMsgClose)(HCRYPTMSG);
     DWORD(APIENTRY* GetFileVersionInfoSizeA)(LPCSTR, LPDWORD);
     HANDLE(WINAPI* GetCurrentProcess)(VOID);
-    DWORD _pad[21];
+    BOOL(WINAPI* GetModuleInformation)(HANDLE, HMODULE, LPMODULEINFO, DWORD);
+    BOOL(APIENTRY* VerQueryValueA)(LPCVOID, LPCSTR, LPVOID*, PUINT);
+    BOOL(WINAPI* FlushInstructionCache)(HANDLE, LPCVOID, SIZE_T);
+    VOID(WINAPI* Sleep)(DWORD);
+    DWORD(WINAPI* ResumeThread)(HANDLE);
+    LONG(WINAPI* WinVerifyTrust)(HWND, GUID*, LPVOID);
+    DWORD(WINAPI* GetModuleFileNameExA)(HANDLE, HMODULE, LPSTR, DWORD);
+    HANDLE(WINAPI* GetCurrentThread)(VOID);
+    DWORD(WINAPI* GetProcessId)(HANDLE);
+    BOOL(WINAPI* GetFileInformationByHandle)(HANDLE, LPBY_HANDLE_FILE_INFORMATION);
+    BOOL(WINAPI* GetVolumePathNamesForVolumeNameW)(LPCWSTR, LPWCH, DWORD, PDWORD);
+    HDEVINFO(WINAPI* SetupDiGetClassDevsA)(CONST GUID*, PCSTR, HWND, DWORD);
     HANDLE(WINAPI* CreateToolhelp32Snapshot)(DWORD, DWORD);
     BOOL(WINAPI* ConvertSidToStringSidA)(PSID, LPSTR*);
     BOOL(WINAPI* WriteFile)(HANDLE, LPCVOID, DWORD, LPDWORD, LPOVERLAPPED);
