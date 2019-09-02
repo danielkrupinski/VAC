@@ -204,3 +204,13 @@ BOOLEAN Utils_getSystemInformation(VOID)
     }
     return FALSE;
 }
+
+// A1 ? ? ? ? 53 56
+int Utils_wideCharToMultiByte(LPCWCH wideCharStr, LPSTR multiByteStr)
+{
+    int result = winApi.WideCharToMultiByte(CP_UTF8, 0, wideCharStr, -1, multiByteStr, MAX_PATH, NULL, NULL);
+
+    if (!result)
+        multiByteStr[MAX_PATH - 1] = 0;
+    return result;
+}

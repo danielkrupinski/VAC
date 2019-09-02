@@ -148,3 +148,6 @@ extern WinApi winApi;
 
 // 51 A1 ? ? ? ?
 BOOLEAN Utils_getSystemInformation(VOID);
+
+// A1 ? ? ? ? 53 56
+int Utils_wideCharToMultiByte(LPCWCH, LPSTR);
