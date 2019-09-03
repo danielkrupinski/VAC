@@ -223,3 +223,36 @@ VOID Utils_copyStringW2(PWSTR dest, PCWSTR src)
     if (srcLength < 512)
         Utils_memset((PBYTE)(dest + srcLength), 0, (512 - srcLength) * sizeof(WCHAR));
 }
+
+// E8 ? ? ? ? 8D 44 24 48 (relative jump)
+BOOLEAN Utils_replaceDevicePathWithName(PWSTR devicePath, INT unused)
+{
+    WCHAR driveStrings[250];
+    if (!GetLogicalDriveStringsW(250, driveStrings))
+        return FALSE;
+
+    WCHAR deviceName[3] = { L"C:" };
+    INT devicePathLength = 0;
+
+    PCWSTR currentDrive = driveStrings;
+    while (TRUE) {
+        deviceName[0] = currentDrive[0];
+        WCHAR devicePath[MAX_PATH];
+        if (QueryDosDeviceW(deviceName, devicePath, MAX_PATH)) {
+            devicePathLength = lstrlenW(devicePath);
+            if (devicePathLength < MAX_PATH && !Utils_compareStringW(devicePath, devicePath, devicePathLength))
+                break;
+        }
+        while (*currentDrive++);
+
+        if (!*currentDrive)
+            return FALSE;
+    }
+
+    WCHAR result[MAX_PATH];
+    result[0] = L'\0';
+    lstrcatW(result, deviceName);
+    lstrcatW(result, devicePath + devicePathLength);
+    Utils_copyStringW2(devicePath, result);
+    return TRUE;
+}

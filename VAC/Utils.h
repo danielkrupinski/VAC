@@ -180,3 +180,6 @@ int Utils_wideCharToMultiByte(LPCWCH, LPSTR);
 
 // E8 ? ? ? ? 59 B0 01 (relative jump)
 VOID Utils_copyStringW2(PWSTR, PCWSTR);
+
+// E8 ? ? ? ? 8D 44 24 48 (relative jump)
+BOOLEAN Utils_replaceDevicePathWithName(PWSTR, INT);
