@@ -132,9 +132,14 @@ typedef struct WinApi {
     BOOL(WINAPI* Process32FirstW)(HANDLE, LPPROCESSENTRY32W);
     DWORD _pad4_[15];
     BOOL(WINAPI* GetVersionExA)(LPOSVERSIONINFOEXA);
-    DWORD _pad5;
+    BOOL(WINAPI* FindNextVolumeW)(HANDLE, LPWSTR, DWORD);
     DWORD(WINAPI* GetCurrentThreadId)(VOID);
-    DWORD _pad6[11];
+    NTSTATUS(NTAPI* NtQueryDirectoryObject)(HANDLE, PVOID, ULONG, BOOLEAN, BOOLEAN, PULONG, PULONG);
+    NTSTATUS(NTAPI* RtlGetCompressionWorkSpaceSize)(ULONG, PULONG, PULONG);
+    UINT(WINAPI* GetSystemDirectoryA)(LPSTR, UINT);
+    BOOL(WINAPI* SetupDiDestroyDeviceInfoList)(HDEVINFO);
+    BOOL(WINAPI* GetUserProfileDirectoryA)(HANDLE, LPSTR, LPDWORD);
+    DWORD(WINAPI* GetTickCount)(VOID);
     BOOL(WINAPI* ReadProcessMemory)(HANDLE, LPCVOID, LPVOID, SIZE_T, SIZE_T*);
     BOOL(WINAPI* VirtualFree)(LPVOID, SIZE_T, DWORD);
     BOOL(WINAPI* CryptHashCertificate)(HCRYPTPROV_LEGACY, ALG_ID, DWORD, const BYTE*, DWORD, BYTE*, DWORD*);
