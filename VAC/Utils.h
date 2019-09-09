@@ -10,6 +10,8 @@
 #include <winternl.h>
 #include <WinTrust.h>
 #include <DbgHelp.h>
+#define SECURITY_WIN32
+#include <security.h>
 
 // 83 C8 FF 83 E9 00
 INT Utils_getProtect(BYTE);
@@ -126,7 +128,11 @@ typedef struct WinApi {
     LSTATUS(APIENTRY* RegEnumKeyExA)(HKEY, DWORD, LPSTR, LPDWORD, LPDWORD, LPSTR, LPDWORD, PFILETIME);
     DWORD(WINAPI* CertGetNameStringW)(PCCERT_CONTEXT, DWORD, DWORD, void*, LPWSTR, DWORD);
     UINT(WINAPI* GetSystemDirectoryW)(LPWSTR, UINT);
-    DWORD _pad2[27];
+    DWORD(WINAPI* GetProcessImageFileNameA)(HANDLE, LPSTR, DWORD);
+    BOOL(WINAPI* QueryServiceConfigA)(SC_HANDLE, LPQUERY_SERVICE_CONFIGA, DWORD, LPDWORD);
+    BOOLEAN(SEC_ENTRY* GetUserNameExW)(EXTENDED_NAME_FORMAT, LPWSTR, PULONG);
+    BOOL(WINAPI* IsBadReadPtr)(CONST VOID*, UINT_PTR);
+    DWORD _pad2[23];
     BOOL(WINAPI* CloseHandle)(HANDLE);
     NTSTATUS(NTAPI* NtQueryInformationThread)(HANDLE, THREADINFOCLASS, PVOID, ULONG, PULONG);
     BOOL(WINAPI* OpenProcessToken)(HANDLE, DWORD, PHANDLE);
