@@ -1,5 +1,5 @@
-#include "Ice.h"
 #include "../Utils.h"
+#include "Ice.h"
 
 // BA ? ? ? ? 85 C9
 static CONST UINT Ice_pbox[32] = {

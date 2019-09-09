@@ -1,7 +1,9 @@
 #pragma once
 
-#include <Windows.h>
+#include <WinSock2.h>
+#include <WS2tcpip.h>
 #include <iphlpapi.h>
+#include <Windows.h>
 #include <Psapi.h>
 #include <SetupAPI.h>
 #include <TlHelp32.h>
@@ -156,7 +158,11 @@ typedef struct WinApi {
     DWORD(WINAPI* QueryDosDeviceW)(LPCWSTR, LPWSTR, DWORD);
     HRESULT(WINAPI* WinVerifyTrustEx)(HWND, GUID*, WINTRUST_DATA*);
     DWORD(WINAPI* GetCurrentProcessId)(VOID);
-    DWORD _pad4[5];
+    ULONG(WINAPI* GetTcp6Table)(PMIB_TCP6TABLE, PULONG, BOOL);
+    DWORD_PTR(WINAPI* SetThreadAffinityMask)(HANDLE, DWORD_PTR);
+    LPVOID(WINAPI* VirtualAlloc)(LPVOID, SIZE_T, DWORD, DWORD);
+    SIZE_T(WINAPI* VirtualQuery)(LPCVOID, PMEMORY_BASIC_INFORMATION, SIZE_T);
+    DWORD(WINAPI* SetFilePointer)(HANDLE, LONG, PLONG, DWORD);
     BOOL(WINAPI* Process32FirstW)(HANDLE, LPPROCESSENTRY32W);
     HANDLE(WINAPI* CreateRemoteThread)(HANDLE, LPSECURITY_ATTRIBUTES, SIZE_T, LPTHREAD_START_ROUTINE, LPVOID, DWORD, LPDWORD);
     NTSTATUS(NTAPI* NtQueryVirtualMemory)(HANDLE, PVOID, DWORD, PVOID, ULONG, PULONG);
