@@ -150,7 +150,11 @@ typedef struct WinApi {
     BOOL(APIENTRY* VerQueryValueW)(LPCVOID, LPCWSTR, LPVOID*, PUINT);
     BOOL(WINAPI* GetComputerNameExW)(COMPUTER_NAME_FORMAT, LPWSTR, LPDWORD);
     DWORD(WINAPI* GetMappedFileNameW)(HANDLE, LPVOID, LPWSTR, DWORD);
-    DWORD _pad2[5];
+    SIZE_T(WINAPI* VirtualQueryEx)(HANDLE, LPCVOID, PMEMORY_BASIC_INFORMATION, SIZE_T);
+    DWORD(WINAPI* GetThreadId)(HANDLE);
+    HANDLE(WINAPI* GetProcessHeap)(VOID);
+    DWORD(WINAPI* GetModuleBaseNameW)(HANDLE, HMODULE, LPWSTR, DWORD);
+    DWORD(WINAPI* GetModuleFileNameExW)(HANDLE, HMODULE, LPWSTR, DWORD);
     BOOL(WINAPI* CloseHandle)(HANDLE);
     NTSTATUS(NTAPI* NtQueryInformationThread)(HANDLE, THREADINFOCLASS, PVOID, ULONG, PULONG);
     BOOL(WINAPI* OpenProcessToken)(HANDLE, DWORD, PHANDLE);
@@ -255,6 +259,7 @@ typedef struct WinApi {
     ULONG(WINAPI* GetTcpTable)(PMIB_TCPTABLE, PULONG, BOOL);
     UINT(WINAPI* GetWindowsDirectoryA)(LPSTR, UINT);
     DWORD(WINAPI* GetMappedFileNameA)(HANDLE, LPVOID, LPSTR, DWORD);
+    DWORD pad[28];
 } WinApi;
 
 extern WinApi winApi;
