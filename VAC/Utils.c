@@ -133,7 +133,6 @@ BOOL Utils_iceDecrypt(INT n, PSTR text, INT size, PCSTR key)
     return Ice_destroyKey(&iceKey);
 }
 
-PVOID winapiFunctions[200];
 HMODULE moduleHandles[16];
 INT winapiFunctionsCount;
 INT moduleHandlesCount;
@@ -148,7 +147,7 @@ VOID Utils_resetFunctionsAndModuleHandles(VOID)
     }
     moduleHandlesCount = 0;
 
-    Utils_memset((PBYTE)winapiFunctions, 0, sizeof(winapiFunctions));
+    Utils_memset((PBYTE)&winApi, 0, sizeof(winApi));
     winapiFunctionsCount = 0;
 }
 
@@ -157,7 +156,7 @@ UINT winapiFunctionsHash;
 // E8 ? ? ? ? B3 01 (relative jump)
 BOOLEAN Utils_calculateWinapiFunctionsHash(VOID)
 {
-    winapiFunctionsHash = Utils_crc32ForByte((PBYTE)winapiFunctions, sizeof(winapiFunctions), winapiFunctionsHash);
+    winapiFunctionsHash = Utils_crc32ForByte((PBYTE)&winApi, sizeof(winApi), winapiFunctionsHash);
     return TRUE;
 }
 
