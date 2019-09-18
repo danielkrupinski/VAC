@@ -12,6 +12,7 @@
 #include <DbgHelp.h>
 #define SECURITY_WIN32
 #include <security.h>
+#include <Snmp.h>
 
 // 83 C8 FF 83 E9 00
 INT Utils_getProtect(BYTE);
@@ -274,3 +275,13 @@ VOID Utils_copyStringW2(PWSTR, PCWSTR);
 
 // E8 ? ? ? ? 8D 44 24 48 (relative jump)
 BOOLEAN Utils_replaceDevicePathWithName(PWSTR, INT);
+
+typedef struct Snmp {
+    VOID(WINAPI* SnmpUtilVarBindFree)(SnmpVarBind*);
+    HMODULE inetmib1;
+    LPVOID(WINAPI* SnmpUtilMemAlloc)(UINT);
+    HMODULE snmpapi;
+    BOOL(WINAPI* SnmpExtensionQuery)(BYTE, SnmpVarBindList*, AsnInteger32*, AsnInteger32*);
+} Snmp;
+
+extern Snmp snmp;

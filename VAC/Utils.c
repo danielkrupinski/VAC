@@ -180,6 +180,7 @@ VOID Utils_copyStringW(PWSTR dest, PCWSTR src, UINT count)
 }
 
 Data data;
+Snmp snmp;
 WinApi winApi;
 
 // 51 A1 ? ? ? ?
