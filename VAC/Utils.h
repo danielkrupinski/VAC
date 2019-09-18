@@ -285,3 +285,6 @@ typedef struct Snmp {
 } Snmp;
 
 extern Snmp snmp;
+
+// E8 ? ? ? ? EB 07 (relative jump)
+VOID Utils_freeSnmp(VOID);

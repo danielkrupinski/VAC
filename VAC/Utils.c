@@ -256,3 +256,24 @@ BOOLEAN Utils_replaceDevicePathWithName(PWSTR devicePath, INT unused)
     Utils_copyStringW2(devicePath, result);
     return TRUE;
 }
+
+// E8 ? ? ? ? EB 07 (relative jump)
+VOID Utils_freeSnmp(VOID)
+{
+    if (snmp.inetmib1) {
+        VOID(WINAPI* SnmpExtensionClose)(VOID) = (PVOID)winApi.GetProcAddress(snmp.inetmib1, "SnmpExtensionClose");
+
+        if (SnmpExtensionClose)
+            SnmpExtensionClose();
+        winApi.FreeLibrary(snmp.inetmib1);
+        snmp.inetmib1 = NULL;
+        snmp.SnmpExtensionQuery = NULL;
+    }
+
+    if (snmp.snmpapi) {
+        winApi.FreeLibrary(snmp.snmpapi);
+        snmp.snmpapi = NULL;
+        snmp.SnmpUtilMemAlloc = NULL;
+        snmp.SnmpUtilVarBindFree = NULL;
+    }
+}
