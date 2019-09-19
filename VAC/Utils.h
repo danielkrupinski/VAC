@@ -288,3 +288,6 @@ extern Snmp snmp;
 
 // E8 ? ? ? ? EB 07 (relative jump)
 VOID Utils_freeSnmp(VOID);
+
+// E8 ? ? ? ? 84 C0 74 6B (relative jump)
+BOOLEAN Utils_initializeSnmp(VOID);

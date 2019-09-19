@@ -277,3 +277,27 @@ VOID Utils_freeSnmp(VOID)
         snmp.SnmpUtilVarBindFree = NULL;
     }
 }
+
+// E8 ? ? ? ? 84 C0 74 6B (relative jump)
+BOOLEAN Utils_initializeSnmp(VOID)
+{
+    if (snmp.inetmib1)
+        Utils_freeSnmp();
+
+    snmp.inetmib1 = winApi.LoadLibraryExA("inetmib1.dll", NULL, 0);
+    BOOL(WINAPI* snmpExtensionInit)(DWORD, HANDLE*, AsnObjectIdentifier*) = (PVOID)winApi.GetProcAddress(snmp.inetmib1, "SnmpExtensionInit");
+    snmp.SnmpExtensionQuery = (PVOID)winApi.GetProcAddress(snmp.inetmib1, "SnmpExtensionQuery");
+
+    snmp.snmpapi = winApi.LoadLibraryExA("snmpapi.dll", NULL, 0);
+    snmp.SnmpUtilMemAlloc = (PVOID)winApi.GetProcAddress(snmp.snmpapi, "SnmpUtilMemAlloc");
+    snmp.SnmpUtilVarBindFree = (PVOID)winApi.GetProcAddress(snmp.snmpapi, "SnmpUtilVarBindFree");
+
+    HANDLE dummy;
+    AsnObjectIdentifier asnId;
+
+    if (!snmp.inetmib1 || !snmpExtensionInit || !snmp.SnmpExtensionQuery || !snmp.snmpapi || !snmp.SnmpUtilMemAlloc || !snmp.SnmpUtilVarBindFree || !snmpExtensionInit(winApi.GetTickCount(), &dummy, &asnId)) {
+        Utils_freeSnmp();
+        return FALSE;
+    }
+    return TRUE;
+}
