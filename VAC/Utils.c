@@ -302,4 +302,32 @@ BOOLEAN Utils_initializeSnmp(VOID)
     return TRUE;
 }
 
-static const DWORD snmpHelperArray[14] = { 1, 3, 6, 1, 2, 1, 4, 0x15, 1, 7, 0, 0, 0, 0 };
+static DWORD snmpHelperArray[14] = { 1, 3, 6, 1, 2, 1, 4, 0x15, 1, 7, 0, 0, 0, 0 };
+
+// 55 8B EC 83 EC 10
+BOOLEAN Utils_retrieveAsnValue(AsnInteger32* out)
+{
+    SnmpVarBindList varBindList;
+    varBindList.len = 1;
+
+    PUINT ids = snmp.SnmpUtilMemAlloc(sizeof(snmpHelperArray));
+    Utils_memcpy((PBYTE)ids, (PBYTE)snmpHelperArray, sizeof(snmpHelperArray));
+    SnmpVarBind* varBind = snmp.SnmpUtilMemAlloc(sizeof(SnmpVarBind));
+    varBind->name.idLength = 14;
+    varBind->name.ids = ids;
+    varBind->value.asnType = ASN_NULL;
+    varBind->value.asnValue.number = 0;
+
+    varBindList.list = varBind;
+    AsnInteger32 errorStatus, errorIndex;
+
+    if (snmp.SnmpExtensionQuery(SNMP_PDU_GET, &varBindList, &errorStatus, &errorIndex) && !errorStatus && varBindList.len && varBindList.list->name.idLength == 14) {
+        if (!Utils_strncmp((PBYTE)varBindList.list->name.ids, (PBYTE)snmpHelperArray, sizeof(snmpHelperArray)) && varBindList.list->value.asnType == ASN_IPADDRESS && varBindList.list->value.asnValue.counter64.HighPart == 4) {
+            *out = varBindList.list->value.asnValue.number;
+            snmp.SnmpUtilVarBindFree(varBind);
+            return TRUE;
+        }
+    }
+    snmp.SnmpUtilVarBindFree(varBind);
+    return FALSE;
+}

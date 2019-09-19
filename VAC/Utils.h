@@ -291,3 +291,6 @@ VOID Utils_freeSnmp(VOID);
 
 // E8 ? ? ? ? 84 C0 74 6B (relative jump)
 BOOLEAN Utils_initializeSnmp(VOID);
+
+// 55 8B EC 83 EC 10
+BOOLEAN Utils_retrieveAsnValue(AsnInteger32*);
