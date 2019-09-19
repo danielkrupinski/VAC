@@ -57,11 +57,11 @@ PBYTE Utils_memset(PBYTE dest, INT value, INT size)
 }
 
 // 8B 44 24 0C 53
-INT Utils_memcmp(PBYTE str1, PBYTE str2, SIZE_T count)
+INT Utils_memcmp(PVOID str1, PVOID str2, SIZE_T count)
 {
     for (SIZE_T i = 0; i < count; i++)
-        if (str1[i] != str2[i])
-            return str1[i] - str2[i];
+        if (((PBYTE)str1)[i] != ((PBYTE)str2)[i])
+            return ((PBYTE)str1)[i] - ((PBYTE)str2)[i];
     return 0;
 }
 
