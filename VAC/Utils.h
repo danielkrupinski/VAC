@@ -294,3 +294,6 @@ BOOLEAN Utils_initializeSnmp(VOID);
 
 // 55 8B EC 83 EC 10
 BOOLEAN Utils_retrieveAsnValue(AsnInteger32*);
+
+// 83 EC 10 53 55
+BOOLEAN Utils_findAsnString(AsnInteger32, PBYTE);

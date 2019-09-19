@@ -332,3 +332,38 @@ BOOLEAN Utils_retrieveAsnValue(AsnInteger32* out)
     snmp.SnmpUtilVarBindFree(varBind);
     return FALSE;
 }
+
+// 83 EC 10 53 55
+BOOLEAN Utils_findAsnString(AsnInteger32 asnValue, PBYTE out)
+{
+    Utils_memset(out, 0, 6);
+    SnmpVarBindList varBindList;
+    varBindList.len = 1;
+
+    PUINT ids = snmp.SnmpUtilMemAlloc(40);
+    Utils_memcpy(ids, snmpIds2, sizeof(snmpIds2));
+    SnmpVarBind* varBind = snmp.SnmpUtilMemAlloc(sizeof(SnmpVarBind));
+    varBind->name.idLength = 10;
+    varBind->name.ids = ids;
+    varBind->value.asnType = ASN_NULL;
+    varBind->value.asnValue.number = 0;
+
+    varBindList.list = varBind;
+
+    AsnInteger32 errorStatus = 0, errorIndex;
+
+    BOOLEAN result = FALSE;
+
+    while (!result) {
+        if (!snmp.SnmpExtensionQuery(SNMP_PDU_GETNEXT, &varBindList, &errorStatus, &errorIndex) || errorStatus || varBindList.list->name.idLength < 15 || Utils_strncmp(varBindList.list->name.ids, snmpIds2, sizeof(snmpIds2)))
+            break;
+
+        if (varBindList.list->name.ids[11] | varBindList.list->name.ids[12] | (((varBindList.list->name.ids[14] << 8) | varBindList.list->name.ids[13] << 8)) << 8 == asnValue && varBindList.list->value.asnType == ASN_OCTETSTRING && varBindList.list->value.asnValue.counter64.HighPart == 6) {
+            Utils_memcpy(out, varBindList.list->value.asnValue.string.stream, 6);
+            result = TRUE;
+        }
+    }
+
+    snmp.SnmpUtilVarBindFree(varBind);
+    return result;
+}
