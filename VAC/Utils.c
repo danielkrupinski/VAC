@@ -303,6 +303,7 @@ BOOLEAN Utils_initializeSnmp(VOID)
 }
 
 static DWORD snmpIds[14] = { 1, 3, 6, 1, 2, 1, 4, 0x15, 1, 7, 0, 0, 0, 0 };
+static DWORD snmpIds2[10] = { 1, 3, 6, 1, 2, 1, 4, 0x16, 1, 2 };
 
 // 55 8B EC 83 EC 10
 BOOLEAN Utils_retrieveAsnValue(AsnInteger32* out)
