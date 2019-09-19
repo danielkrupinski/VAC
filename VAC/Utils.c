@@ -301,3 +301,5 @@ BOOLEAN Utils_initializeSnmp(VOID)
     }
     return TRUE;
 }
+
+static const DWORD snmpHelperArray[14] = { 1, 3, 6, 1, 2, 1, 4, 0x15, 1, 7, 0, 0, 0, 0 };
