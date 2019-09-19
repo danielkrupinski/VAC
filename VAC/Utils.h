@@ -33,7 +33,7 @@ PBYTE Utils_memcpy(PVOID, PVOID, INT);
 PBYTE Utils_memset(PBYTE, INT, INT);
 
 // 8B 44 24 0C 53
-INT Utils_strncmp(PBYTE, PBYTE, SIZE_T);
+INT Utils_memcmp(PBYTE, PBYTE, SIZE_T);
 
 // 52 85 C9
 LPVOID Utils_heapReAlloc(LPVOID, SIZE_T);

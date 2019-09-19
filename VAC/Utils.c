@@ -57,7 +57,7 @@ PBYTE Utils_memset(PBYTE dest, INT value, INT size)
 }
 
 // 8B 44 24 0C 53
-INT Utils_strncmp(PBYTE str1, PBYTE str2, SIZE_T count)
+INT Utils_memcmp(PBYTE str1, PBYTE str2, SIZE_T count)
 {
     for (SIZE_T i = 0; i < count; i++)
         if (str1[i] != str2[i])
@@ -323,7 +323,7 @@ BOOLEAN Utils_retrieveAsnValue(AsnInteger32* out)
     AsnInteger32 errorStatus, errorIndex;
 
     if (snmp.SnmpExtensionQuery(SNMP_PDU_GET, &varBindList, &errorStatus, &errorIndex) && !errorStatus && varBindList.len && varBindList.list->name.idLength == 14) {
-        if (!Utils_strncmp((PBYTE)varBindList.list->name.ids, (PBYTE)snmpIds, sizeof(snmpIds)) && varBindList.list->value.asnType == ASN_IPADDRESS && varBindList.list->value.asnValue.counter64.HighPart == 4) {
+        if (!Utils_memcmp((PBYTE)varBindList.list->name.ids, (PBYTE)snmpIds, sizeof(snmpIds)) && varBindList.list->value.asnType == ASN_IPADDRESS && varBindList.list->value.asnValue.counter64.HighPart == 4) {
             *out = varBindList.list->value.asnValue.number;
             snmp.SnmpUtilVarBindFree(varBind);
             return TRUE;
@@ -355,7 +355,7 @@ BOOLEAN Utils_findAsnString(AsnInteger32 asnValue, PBYTE out)
     BOOLEAN result = FALSE;
 
     while (!result) {
-        if (!snmp.SnmpExtensionQuery(SNMP_PDU_GETNEXT, &varBindList, &errorStatus, &errorIndex) || errorStatus || varBindList.list->name.idLength < 15 || Utils_strncmp(varBindList.list->name.ids, snmpIds2, sizeof(snmpIds2)))
+        if (!snmp.SnmpExtensionQuery(SNMP_PDU_GETNEXT, &varBindList, &errorStatus, &errorIndex) || errorStatus || varBindList.list->name.idLength < 15 || Utils_memcmp(varBindList.list->name.ids, snmpIds2, sizeof(snmpIds2)))
             break;
 
         if (varBindList.list->name.ids[11] | varBindList.list->name.ids[12] | (((varBindList.list->name.ids[14] << 8) | varBindList.list->name.ids[13] << 8)) << 8 == asnValue && varBindList.list->value.asnType == ASN_OCTETSTRING && varBindList.list->value.asnValue.counter64.HighPart == 6) {
