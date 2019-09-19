@@ -39,10 +39,10 @@ VOID Utils_initializeMD5(DWORD* md5)
 }
 
 // E8 ? ? ? ? 6A 58 (relative jump)
-PBYTE Utils_memcpy(PBYTE dest, PBYTE src, INT size)
+PBYTE Utils_memcpy(PVOID dest, PVOID src, INT size)
 {
     for (INT i = 0; i < size; i++)
-        dest[i] = src[i];
+        ((PBYTE)dest)[i] = ((PBYTE)src)[i];
 
     return dest;
 }
