@@ -372,14 +372,14 @@ BOOLEAN Utils_findAsnString(AsnInteger32 asnValue, PBYTE out)
 INT Utils_enumProcesses(DWORD pids[500], DWORD parentPids[500])
 {
     INT processCount = 0;
-    HANDLE snapshot = CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS, 0);
+    HANDLE snapshot = winApi.CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS, 0);
 
     if (snapshot == INVALID_HANDLE_VALUE)
         return 60;
     PROCESSENTRY32W processEntry;
     processEntry.dwSize = sizeof(PROCESSENTRY32W);
 
-    if (Process32FirstW(snapshot, &processEntry)) {
+    if (winApi.Process32FirstW(snapshot, &processEntry)) {
         do {
             if (processCount < 500) {
                 INT currentIndex = processCount;
@@ -399,8 +399,8 @@ INT Utils_enumProcesses(DWORD pids[500], DWORD parentPids[500])
                 pids[currentIndex] = processEntry.th32ProcessID;
                 parentPids[currentIndex] = processEntry.th32ParentProcessID;
             }
-        } while (Process32NextW(snapshot, &processEntry));
+        } while (winApi.Process32NextW(snapshot, &processEntry));
     }
-    CloseHandle(snapshot);
+    winApi.CloseHandle(snapshot);
     return processCount;
 }
