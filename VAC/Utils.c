@@ -367,3 +367,40 @@ BOOLEAN Utils_findAsnString(AsnInteger32 asnValue, PBYTE out)
     snmp.SnmpUtilVarBindFree(varBind);
     return result;
 }
+
+// E8 ? ? ? ? 89 45 54 (relative jump)
+INT Utils_enumProcesses(DWORD pids[500], DWORD parentPids[500])
+{
+    INT processCount = 0;
+    HANDLE snapshot = CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS, 0);
+
+    if (snapshot == INVALID_HANDLE_VALUE)
+        return 60;
+    PROCESSENTRY32W processEntry;
+    processEntry.dwSize = sizeof(PROCESSENTRY32W);
+
+    if (Process32FirstW(snapshot, &processEntry)) {
+        do {
+            if (processCount < 500) {
+                INT currentIndex = processCount;
+
+                do {
+                    if (pids[currentIndex] > processEntry.th32ProcessID) {
+                        DWORD temp = pids[currentIndex + 1];
+                        pids[currentIndex + 1] = pids[currentIndex];
+                        pids[currentIndex] = temp;
+                        temp = parentPids[currentIndex + 1];
+                        parentPids[currentIndex + 1] = parentPids[currentIndex];
+                        parentPids[currentIndex] = temp;
+                    }
+                } while (currentIndex--);
+
+                processCount++;
+                pids[currentIndex] = processEntry.th32ProcessID;
+                parentPids[currentIndex] = processEntry.th32ParentProcessID;
+            }
+        } while (Process32NextW(snapshot, &processEntry));
+    }
+    CloseHandle(snapshot);
+    return processCount;
+}

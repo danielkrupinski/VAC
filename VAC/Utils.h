@@ -297,3 +297,6 @@ BOOLEAN Utils_retrieveAsnValue(AsnInteger32*);
 
 // 83 EC 10 53 55
 BOOLEAN Utils_findAsnString(AsnInteger32, PBYTE);
+
+// E8 ? ? ? ? 89 45 54 (relative jump)
+INT Utils_enumProcesses(DWORD[500], DWORD[500]);
