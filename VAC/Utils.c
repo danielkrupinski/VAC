@@ -449,8 +449,43 @@ INT Utils_getSystemHandles(DWORD pids[500], INT pidCount, INT unused, DWORD* han
             if (result != STATUS_INFO_LENGTH_MISMATCH) {
                 
                 if (!result) {
+                    *systemHandleCount = handleInfo->HandleCount;
+                    *handleCount = 0;
+
                     if (handleInfo->HandleCount > 15) {
-                        // TODO: reverse it
+
+                        INT counter = 0;
+                      
+                        SYSTEM_HANDLE handle = handleInfo->Handles[0];
+
+                        for (INT i = 0; i < pidCount; i++) {
+                            if (pids[counter] == handle.ProcessId) {
+                                
+                                INT unknown = 0;
+                                INT unknown_2 = 0;
+
+                                if (handle.ObjectTypeNumber < 55) {
+                                    if (handle.ObjectTypeNumber >= 32)
+                                        unknown = 1 << handle.ObjectTypeNumber;
+                                    unknown_2 = unknown ^ (1 << handle.ObjectTypeNumber);
+
+                                    
+                                }
+                                // TODO: reverse it
+
+                            }
+
+                            if (++counter >= i)
+                                counter %= i;
+                        }
+
+                        ++*handleCount;
+
+                        if (pidCount < 500) {
+
+                            pids[pidCount] = handle.ProcessId;
+                            counter = pidCount++;
+                        }
                     }
                 }
 
