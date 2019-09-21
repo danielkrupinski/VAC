@@ -396,4 +396,68 @@ INT Utils_enumProcesses(DWORD pids[500], DWORD parentPids[500])
     return processCount;
 }
 
-CHAR encryptedNtQuerySystemInformation[] = { "\x10\x2a\xf\x2b\x3b\x2c\x27\xd\x27\x2d\x2a\x3b\x33\x17\x30\x38\x31\x2c\x33\x3f\x2a\x37\x31\x30\x5e\x0" }; // NtQuerySystemInformation xored with '^'
+HMODULE ntdll;
+
+typedef struct _SYSTEM_HANDLE
+{
+    ULONG ProcessId;
+    BYTE ObjectTypeNumber;
+    BYTE Flags;
+    USHORT Handle;
+    PVOID Object;
+    ACCESS_MASK GrantedAccess;
+} SYSTEM_HANDLE, *PSYSTEM_HANDLE;
+
+typedef struct _SYSTEM_HANDLE_INFORMATION {
+    ULONG HandleCount;
+    SYSTEM_HANDLE Handles[1];
+} SYSTEM_HANDLE_INFORMATION, *PSYSTEM_HANDLE_INFORMATION;
+
+#define SystemHandleInformation 16
+
+#define STATUS_INFO_LENGTH_MISMATCH 0xc0000004
+
+// 83 EC 2C
+INT Utils_getSystemHandles(DWORD pids[500], INT pidCount, INT unused, DWORD* handleCount, DWORD* systemHandleCount, DWORD* out)
+{
+    CHAR ntQuerySystemInformation[] = { "\x10\x2a\xf\x2b\x3b\x2c\x27\xd\x27\x2d\x2a\x3b\x33\x17\x30\x38\x31\x2c\x33\x3f\x2a\x37\x31\x30\x5e\x0" }; // NtQuerySystemInformation xored with '^'
+
+    for (PCHAR current = ntQuerySystemInformation; *current; current++)
+        *current ^= '^';
+
+    NTSTATUS(NTAPI* NtQuerySystemInformation)(SYSTEM_INFORMATION_CLASS, PVOID, ULONG, PULONG) = winApi.GetProcAddress(ntdll, ntQuerySystemInformation);
+
+    INT result = 0;
+
+    if (NtQuerySystemInformation) {
+        INT handleInfoLength = 0;
+        PSYSTEM_HANDLE_INFORMATION handleInfo = NULL;
+       
+        while (TRUE) {
+            handleInfoLength += 0x100000;
+
+            if (handleInfo)
+                winApi.VirtualFree(handleInfo, 0, MEM_RELEASE);
+
+            handleInfo = winApi.VirtualAlloc(NULL, handleInfoLength, MEM_COMMIT | MEM_RESERVE, PAGE_READWRITE);
+
+            if (!handleInfo)
+                break;
+
+            result = NtQuerySystemInformation(SystemHandleInformation, handleInfo, handleInfoLength, NULL);
+
+            if (result != STATUS_INFO_LENGTH_MISMATCH) {
+                
+                if (!result) {
+                    if (handleInfo->HandleCount > 15) {
+                        // TODO: reverse it
+                    }
+                }
+
+                if (handleInfo)
+                    winApi.VirtualFree(handleInfo, 0, MEM_RELEASE);
+                return result;
+            }
+        }
+    }
+}

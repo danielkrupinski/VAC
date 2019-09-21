@@ -300,3 +300,6 @@ BOOLEAN Utils_findAsnString(AsnInteger32, PBYTE);
 
 // E8 ? ? ? ? 89 45 54 (relative jump)
 INT Utils_enumProcesses(DWORD[500], DWORD[500]);
+
+// 83 EC 2C
+INT Utils_getSystemHandles(DWORD[500], INT, INT, DWORD*, DWORD*, DWORD*);
