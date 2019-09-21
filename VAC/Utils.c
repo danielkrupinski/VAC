@@ -382,22 +382,13 @@ INT Utils_enumProcesses(DWORD pids[500], DWORD parentPids[500])
     if (winApi.Process32FirstW(snapshot, &processEntry)) {
         do {
             if (processCount < 500) {
-                INT currentIndex = processCount;
-
-                do {
-                    if (pids[currentIndex] > processEntry.th32ProcessID) {
-                        DWORD temp = pids[currentIndex + 1];
-                        pids[currentIndex + 1] = pids[currentIndex];
-                        pids[currentIndex] = temp;
-                        temp = parentPids[currentIndex + 1];
-                        parentPids[currentIndex + 1] = parentPids[currentIndex];
-                        parentPids[currentIndex] = temp;
-                    }
-                } while (currentIndex--);
+                INT i;
+                for (i = processCount - 1; i >= 0 && pids[i] > processEntry.th32ProcessID; i--)
+                    pids[i + 1] = pids[i];
 
                 processCount++;
-                pids[currentIndex] = processEntry.th32ProcessID;
-                parentPids[currentIndex] = processEntry.th32ParentProcessID;
+                pids[i + 1] = processEntry.th32ProcessID;
+                parentPids[i + 1] = processEntry.th32ParentProcessID;
             }
         } while (winApi.Process32NextW(snapshot, &processEntry));
     }
