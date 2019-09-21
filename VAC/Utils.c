@@ -395,3 +395,5 @@ INT Utils_enumProcesses(DWORD pids[500], DWORD parentPids[500])
     winApi.CloseHandle(snapshot);
     return processCount;
 }
+
+CHAR encryptedNtQuerySystemInformation[] = { "\x10\x2a\xf\x2b\x3b\x2c\x27\xd\x27\x2d\x2a\x3b\x33\x17\x30\x38\x31\x2c\x33\x3f\x2a\x37\x31\x30\x5e\x0" }; // NtQuerySystemInformation xored with '^'
