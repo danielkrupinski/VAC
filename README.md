@@ -22,6 +22,11 @@ Valve Anti-Cheat (VAC) is user-mode noninvasive anti-cheat system developed by V
 | 13 | | Mon Mar 18 18:18:27 2019 |
 | 14 | | Mon Mar 18 18:52:25 2019 |
 | 15 | | Mon Mar 18 19:22:23 2019 |
+| 16 | | Mon Mar 18 19:06:04 2019 |
+| 17 | | Mon Mar 18 19:09:54 2019 |
+| 18 | | Mon Mar 18 20:14:40 2019 |
+| 19 | | Mon Mar 18 19:41:32 2019 |
+| 20 | | Mon Mar 18 19:41:42 2019 |
 
 ## Encryption / hashing
 VAC uses several encryption / hashing methods:
