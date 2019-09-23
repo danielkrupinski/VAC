@@ -43,5 +43,8 @@
     <ClCompile Include="Vector.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Modules\DeviceInfo\DeviceInfo.c">
+      <Filter>Modules\DeviceInfo</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
