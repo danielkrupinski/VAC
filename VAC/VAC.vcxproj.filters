@@ -12,6 +12,12 @@
     <Filter Include="Encryption">
       <UniqueIdentifier>{c7e4e98e-48c8-4976-9369-c4adca5fbb0a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Modules">
+      <UniqueIdentifier>{0cdbedfa-3e62-4558-93de-833e68381a67}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Modules\DeviceInfo">
+      <UniqueIdentifier>{7181e515-6d3e-40e6-a8b0-301a8d3ca7b2}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Utils.h">
@@ -22,6 +28,9 @@
     </ClInclude>
     <ClInclude Include="Vector.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Modules\DeviceInfo\DeviceInfo.h">
+      <Filter>Modules\DeviceInfo</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
