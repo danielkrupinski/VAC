@@ -20,8 +20,8 @@ BOOLEAN DriveInfo_getFileInfo(PCWSTR fileName, DWORD* volumeSerialNumber, DWORD 
         return FALSE;
 
     *volumeSerialNumber = fileInformation.dwVolumeSerialNumber;
-    Utils_memcpy(fileIndex, &fileInformation.nFileIndexLow, sizeof(DWORD));
-    Utils_memcpy(fileIndex, &fileInformation.nFileIndexHigh, sizeof(DWORD));
+    Utils_memcpy(&fileIndex[0], &fileInformation.nFileIndexLow, sizeof(DWORD));
+    Utils_memcpy(&fileIndex[1], &fileInformation.nFileIndexHigh, sizeof(DWORD));
 
     return TRUE;
 }
