@@ -27,7 +27,8 @@ Valve Anti-Cheat (VAC) is user-mode noninvasive anti-cheat system developed by V
 | 18 | | Mon Mar 18 20:14:40 2019 |
 | 19 | | Mon Mar 18 19:41:32 2019 |
 | 20 | | Mon Mar 18 19:41:42 2019 |
-
+| 21 | Enumerate running kernel mode and file system drivers services | Mon Mar 18 19:23:53 2019 |
+| 22 | Get file information (volume serial number and file index) of specific driver requested by VAC server | Mon Mar 18 19:25:33 2019 |
 ## Encryption / hashing
 VAC uses several encryption / hashing methods:
 - MD5 - hashing data read from process memory
