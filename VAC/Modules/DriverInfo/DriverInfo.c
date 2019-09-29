@@ -7,7 +7,7 @@ BOOLEAN DriveInfo_getFileInfo(PCWSTR fileName, DWORD* volumeSerialNumber, DWORD 
     if (!winApi.GetFileInformationByHandle)
         return FALSE;
     
-    HANDLE fileHandle = winApi.CreateFileW(fileName, 1179785, FILE_SHARE_READ, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
+    HANDLE fileHandle = winApi.CreateFileW(fileName, READ_CONTROL | SYNCHRONIZE | FILE_READ_DATA | FILE_READ_EA | FILE_READ_ATTRIBUTES, FILE_SHARE_READ, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
 
     if (fileHandle == INVALID_HANDLE_VALUE)
         return FALSE;
