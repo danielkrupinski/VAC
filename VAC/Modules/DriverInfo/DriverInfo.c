@@ -25,3 +25,21 @@ BOOLEAN DriveInfo_getFileInfo(PCWSTR fileName, DWORD* volumeSerialNumber, DWORD 
 
     return TRUE;
 }
+
+// E8 ? ? ? ? 89 44 24 10 (relative jump)
+LPCWSTR DriverInfo_findSystem32InString(PCWSTR str)
+{
+    PCWSTR first = str;
+    PCWSTR second = L"system32";
+
+    while (*first && *second) {
+        if (CharUpperW((LPWSTR)*first) == CharUpperW((LPWSTR)*second)) {
+            ++second;
+            ++first;
+        } else {
+            first = ++str;
+            second = L"system32";
+        }
+    }
+    return !*second ? str : NULL;
+}
