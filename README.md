@@ -29,9 +29,10 @@ Valve Anti-Cheat (VAC) is user-mode noninvasive anti-cheat system developed by V
 | 20 | | Mon Mar 18 19:41:42 2019 |
 | 21 | Enumerate running kernel mode and file system drivers services | Mon Mar 18 19:23:53 2019 |
 | 22 | Get file information (volume serial number and file index) of specific driver requested by VAC server | Mon Mar 18 19:25:33 2019 |
+
 ## Encryption / hashing
 VAC uses several encryption / hashing methods:
 - MD5 - hashing data read from process memory
 - ICE - decryption of imported functions names and encryption of scan results
 - CRC32 - hashing table of WinAPI functions addresses
-- Xor (?)
+- Xor - encryption of function names on stack, e.g `NtQuerySystemInformation`. Strings are xor-ed with `^` or `>` chars.
