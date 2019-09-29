@@ -18,6 +18,9 @@
     <Filter Include="Modules\DeviceInfo">
       <UniqueIdentifier>{7181e515-6d3e-40e6-a8b0-301a8d3ca7b2}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Modules\DriverInfo">
+      <UniqueIdentifier>{ddcf1cf0-62d2-438f-b61d-76a76e99a079}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Utils.h">
@@ -31,6 +34,9 @@
     </ClInclude>
     <ClInclude Include="Modules\DeviceInfo\DeviceInfo.h">
       <Filter>Modules\DeviceInfo</Filter>
+    </ClInclude>
+    <ClInclude Include="Modules\DriverInfo\DriverInfo.h">
+      <Filter>Modules\DriverInfo</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
