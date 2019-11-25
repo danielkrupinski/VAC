@@ -61,5 +61,8 @@
     <ClCompile Include="Modules\DriverInfo\DriverInfo.c">
       <Filter>Modules\DriverInfo</Filter>
     </ClCompile>
+    <ClCompile Include="Modules\EnumServices\EnumServices.c">
+      <Filter>Modules\EnumServices</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
