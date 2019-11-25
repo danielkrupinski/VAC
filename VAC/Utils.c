@@ -497,3 +497,15 @@ INT Utils_getSystemHandles(DWORD pids[500], INT pidCount, INT unused, DWORD* han
         }
     }
 }
+
+// B8 ? ? ? ? 85 D2
+INT Utils_hash(PCSTR str, INT count)
+{
+    INT hash = 0x45D71892;
+
+    while (count) {
+        hash = (*str++ | 0x20) + 0x21 * hash;
+        count--;
+    }
+    return hash;
+}
