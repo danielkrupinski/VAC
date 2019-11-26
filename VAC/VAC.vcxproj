@@ -158,7 +158,6 @@
     <ClCompile Include="Encryption\Ice.c" />
     <ClCompile Include="Modules\DeviceInfo\DeviceInfo.c" />
     <ClCompile Include="Modules\DriverInfo\DriverInfo.c" />
-    <ClCompile Include="Modules\EnumServices\EnumServices.c" />
     <ClCompile Include="Utils.c" />
     <ClCompile Include="Vector.c" />
   </ItemGroup>
@@ -166,7 +165,6 @@
     <ClInclude Include="Encryption\Ice.h" />
     <ClInclude Include="Modules\DeviceInfo\DeviceInfo.h" />
     <ClInclude Include="Modules\DriverInfo\DriverInfo.h" />
-    <ClInclude Include="Modules\EnumServices\EnumServices.h" />
     <ClInclude Include="Utils.h" />
     <ClInclude Include="Vector.h" />
   </ItemGroup>

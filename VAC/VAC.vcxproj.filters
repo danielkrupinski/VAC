@@ -21,9 +21,6 @@
     <Filter Include="Modules\DriverInfo">
       <UniqueIdentifier>{ddcf1cf0-62d2-438f-b61d-76a76e99a079}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Modules\EnumServices">
-      <UniqueIdentifier>{587bd249-6c42-4cbd-8a53-f9fc8a2512c2}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Utils.h">
@@ -41,9 +38,6 @@
     <ClInclude Include="Modules\DriverInfo\DriverInfo.h">
       <Filter>Modules\DriverInfo</Filter>
     </ClInclude>
-    <ClInclude Include="Modules\EnumServices\EnumServices.h">
-      <Filter>Modules\EnumServices</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Utils.c">
@@ -60,9 +54,6 @@
     </ClCompile>
     <ClCompile Include="Modules\DriverInfo\DriverInfo.c">
       <Filter>Modules\DriverInfo</Filter>
-    </ClCompile>
-    <ClCompile Include="Modules\EnumServices\EnumServices.c">
-      <Filter>Modules\EnumServices</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
