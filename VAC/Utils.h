@@ -270,6 +270,9 @@ BOOLEAN Utils_getSystemInformation(VOID);
 // A1 ? ? ? ? 53 56
 int Utils_wideCharToMultiByte(LPCWCH, LPSTR);
 
+// A1 ? ? ? ? 53
+int Utils_wideCharToMultiByteN(LPCWCH wideCharStr, LPSTR multiByteStr, INT count);
+
 // E8 ? ? ? ? 59 B0 01 (relative jump)
 VOID Utils_copyStringW2(PWSTR, PCWSTR);
 

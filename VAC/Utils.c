@@ -216,6 +216,16 @@ int Utils_wideCharToMultiByte(LPCWCH wideCharStr, LPSTR multiByteStr)
     return result;
 }
 
+// A1 ? ? ? ? 53
+int Utils_wideCharToMultiByteN(LPCWCH wideCharStr, LPSTR multiByteStr, INT count)
+{
+    int result = winApi.WideCharToMultiByte(CP_UTF8, 0, wideCharStr, -1, multiByteStr, count, NULL, NULL);
+
+    if (!result)
+        multiByteStr[count - 1] = 0;
+    return result;
+}
+
 // E8 ? ? ? ? 59 B0 01 (relative jump)
 VOID Utils_copyStringW2(PWSTR dest, PCWSTR src)
 {
