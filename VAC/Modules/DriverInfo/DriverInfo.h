@@ -7,3 +7,6 @@ BOOLEAN DriveInfo_getFileInfo(PCWSTR, DWORD*, DWORD[2]);
 
 // E8 ? ? ? ? 89 44 24 10 (relative jump)
 LPCWSTR DriverInfo_findSystem32InString(PCWSTR);
+
+// 81 EC ? ? ? ? 53
+DWORD DriverInfo_getDriverInfo(DWORD* data, INT driverNameHash);

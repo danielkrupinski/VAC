@@ -43,3 +43,68 @@ LPCWSTR DriverInfo_findSystem32InString(PCWSTR str)
     }
     return !*second ? str : NULL;
 }
+
+// 81 EC ? ? ? ? 53
+DWORD DriverInfo_getDriverInfo(DWORD* data, INT driverNameHash)
+{
+    DWORD result = 0;
+    SC_HANDLE scManager = winApi.OpenSCManagerA(NULL, NULL, SC_MANAGER_ENUMERATE_SERVICE);
+
+    if (scManager) {
+        LPENUM_SERVICE_STATUSW serviceStatus = Utils_heapAlloc(65536);
+        LPQUERY_SERVICE_CONFIGW serviceConfig = Utils_heapAlloc(0x1000);
+        
+        if (serviceStatus && serviceConfig) {
+            DWORD bytesNeeded, servicesReturned, resumeHandle;
+            if ((winApi.EnumServicesStatusW(scManager, SERVICE_DRIVER, SERVICE_ACTIVE, serviceStatus, 65536, &bytesNeeded, &servicesReturned, &resumeHandle) || winApi.GetLastError() == ERROR_MORE_DATA) && servicesReturned > 0) {
+                Utils_memset((PBYTE)serviceStatus, 0, 65536);
+                LPENUM_SERVICE_STATUSW currentServiceStatus = serviceStatus;
+                
+                for (DWORD i = 0; i < servicesReturned; ++i) {
+                    CHAR serviceName[64];
+                    Utils_wideCharToMultiByteN(currentServiceStatus->lpServiceName, serviceName, 64);
+
+                    if (Utils_hash(serviceName, Utils_strlen(serviceName)) == driverNameHash) {
+                        SC_HANDLE service = winApi.OpenServiceW(scManager, currentServiceStatus->lpServiceName, SC_MANAGER_CONNECT | SC_MANAGER_ENUMERATE_SERVICE);
+
+                        if (service && winApi.QueryServiceConfigW(service, serviceConfig, 4096, &bytesNeeded)) {
+                            winApi.CloseServiceHandle(service);
+
+                            Utils_wideCharToMultiByteN(currentServiceStatus->lpServiceName, (LPSTR)&data[7], 256);
+                            Utils_wideCharToMultiByteN(serviceConfig->lpDisplayName, (LPSTR)&data[71], 256);
+                            data[135] = serviceConfig->dwServiceType;
+                            data[136] = serviceConfig->dwStartType;
+                            data[137] = serviceConfig->dwErrorControl;
+                            WCHAR driverPath[256];
+                            // TODO: sub_10004612(v4->lpBinaryPathName, &driverPath);
+                            Utils_wideCharToMultiByteN(driverPath, (LPSTR)&data[138], 256);
+                            Utils_wideCharToMultiByteN(serviceConfig->lpLoadOrderGroup, (LPSTR)&data[202], 32);
+                            Utils_wideCharToMultiByteN(serviceConfig->lpDependencies, (LPSTR)&data[210], 256);
+                            Utils_wideCharToMultiByteN(serviceConfig->lpServiceStartName, (LPSTR)&data[274], 32);
+
+                            LPCWSTR system32InPath = DriverInfo_findSystem32InString(driverPath);
+                            if (system32InPath) {
+                                // something if driver path contains "system32"
+                            }
+                            DriveInfo_getFileInfo(driverPath, &data[284], &data[282]);
+                            winApi.CloseServiceHandle(service);
+                        }
+                        break;
+
+                    }
+                    currentServiceStatus++;
+                }
+            } else {
+                result = winApi.GetLastError();
+            }
+        } else {
+            result = ERROR_NOT_ENOUGH_MEMORY;
+        }
+        Utils_heapFree(serviceConfig);
+        Utils_heapFree(serviceStatus);
+        winApi.CloseServiceHandle(scManager);
+    } else {
+        result = winApi.GetLastError();
+    }
+    return result;
+}
