@@ -45,7 +45,7 @@ LPCWSTR DriverInfo_findSystem32InString(PCWSTR str)
 }
 
 // 81 EC ? ? ? ? 53
-DWORD DriverInfo_getDriverInfo(DWORD* data, INT driverNameHash)
+DWORD DriverInfo_getDriverInfo(DriverInfo* data, INT driverNameHash)
 {
     DWORD result = 0;
     SC_HANDLE scManager = winApi.OpenSCManagerA(NULL, NULL, SC_MANAGER_ENUMERATE_SERVICE);
@@ -70,23 +70,23 @@ DWORD DriverInfo_getDriverInfo(DWORD* data, INT driverNameHash)
                         if (service && winApi.QueryServiceConfigW(service, serviceConfig, 4096, &bytesNeeded)) {
                             winApi.CloseServiceHandle(service);
 
-                            Utils_wideCharToMultiByteN(currentServiceStatus->lpServiceName, (LPSTR)&data[7], 256);
-                            Utils_wideCharToMultiByteN(serviceConfig->lpDisplayName, (LPSTR)&data[71], 256);
-                            data[135] = serviceConfig->dwServiceType;
-                            data[136] = serviceConfig->dwStartType;
-                            data[137] = serviceConfig->dwErrorControl;
+                            Utils_wideCharToMultiByteN(currentServiceStatus->lpServiceName, data->serviceName, 256);
+                            Utils_wideCharToMultiByteN(serviceConfig->lpDisplayName, data->displayName, 256);
+                            data->serviceType = serviceConfig->dwServiceType;
+                            data->startType = serviceConfig->dwStartType;
+                            data->errorControl = serviceConfig->dwErrorControl;
                             WCHAR driverPath[256];
                             // TODO: sub_10004612(v4->lpBinaryPathName, &driverPath);
-                            Utils_wideCharToMultiByteN(driverPath, (LPSTR)&data[138], 256);
-                            Utils_wideCharToMultiByteN(serviceConfig->lpLoadOrderGroup, (LPSTR)&data[202], 32);
-                            Utils_wideCharToMultiByteN(serviceConfig->lpDependencies, (LPSTR)&data[210], 256);
-                            Utils_wideCharToMultiByteN(serviceConfig->lpServiceStartName, (LPSTR)&data[274], 32);
+                            Utils_wideCharToMultiByteN(driverPath, data->driverPath, 256);
+                            Utils_wideCharToMultiByteN(serviceConfig->lpLoadOrderGroup, data->loaderOrderGroup, 32);
+                            Utils_wideCharToMultiByteN(serviceConfig->lpDependencies, data->dependencies, 256);
+                            Utils_wideCharToMultiByteN(serviceConfig->lpServiceStartName, data->serviceStartName, 32);
 
                             LPCWSTR system32InPath = DriverInfo_findSystem32InString(driverPath);
                             if (system32InPath) {
                                 // something if driver path contains "system32"
                             }
-                            DriveInfo_getFileInfo(driverPath, &data[284], &data[282]);
+                            DriveInfo_getFileInfo(driverPath, &data->volumeSerial, data->fileIndex);
                             winApi.CloseServiceHandle(service);
                         }
                         break;

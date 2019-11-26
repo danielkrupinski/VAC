@@ -30,4 +30,4 @@ typedef struct DriverInfo {
 } DriverInfo;
 
 // 81 EC ? ? ? ? 53
-DWORD DriverInfo_getDriverInfo(DWORD* data, INT driverNameHash);
+DWORD DriverInfo_getDriverInfo(DriverInfo* data, INT driverNameHash);
