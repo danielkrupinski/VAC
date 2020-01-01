@@ -26,12 +26,12 @@ The module calls `GetNativeSystemInfo` function and reads fields from resultant 
 - dwProcessorType
 
 Then it calls [`NtQuerySystemInformation`](https://docs.microsoft.com/en-us/windows/win32/api/winternl/nf-winternl-ntquerysysteminformation) API function with following `SystemInformationClass` values (in order they appear in code):
-- SystemTimeOfDayInformation - returns undocumented `SYSTEM_TIMEOFDAY_INFORMATION` struct, VAC uses its two field:
+- SystemTimeOfDayInformation - returns undocumented [`SYSTEM_TIMEOFDAY_INFORMATION`](https://www.geoffchappell.com/studies/windows/km/ntoskrnl/api/ex/sysinfo/timeofday.htm) struct, VAC uses two fields:
     - LARGE_INTEGER CurrentTime
     - LARGE_INTEGER BootTime
-- SystemCodeIntegrityInformation
-- SystemDeviceInformation
-- SystemKernelDebuggerInformation
+- SystemCodeIntegrityInformation - returns [`SYSTEM_CODEINTEGRITY_INFORMATION`](https://www.geoffchappell.com/studies/windows/km/ntoskrnl/api/ex/sysinfo/codeintegrity.htm), module saves `CodeIntegrityOptions` field
+- SystemDeviceInformation - returns [`SYSTEM_DEVICE_INFORMATION`](https://www.geoffchappell.com/studies/windows/km/ntoskrnl/api/ex/sysinfo/device.htm), module saves `NumberOfDisks` field
+- SystemKernelDebuggerInformation - returns [`SYSTEM_KERNEL_DEBUGGER_INFORMATION`](https://www.geoffchappell.com/studies/windows/km/ntoskrnl/api/ex/sysinfo/kernel_debugger.htm), VAC uses whole struct
 - SystemBootEnvironmentInformation
 - SystemRangeStartInformation
 
