@@ -21,6 +21,9 @@
     <Filter Include="Modules\DriverInfo">
       <UniqueIdentifier>{ddcf1cf0-62d2-438f-b61d-76a76e99a079}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Modules\SystemInfo">
+      <UniqueIdentifier>{445b7b5a-cb2e-489c-8a38-929de2d074af}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Utils.h">
@@ -39,7 +42,7 @@
       <Filter>Modules\DriverInfo</Filter>
     </ClInclude>
     <ClInclude Include="Modules\SystemInfo\SystemInfo.h">
-      <Filter>Header Files</Filter>
+      <Filter>Modules\SystemInfo</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -59,7 +62,7 @@
       <Filter>Modules\DriverInfo</Filter>
     </ClCompile>
     <ClCompile Include="Modules\SystemInfo\SystemInfo.c">
-      <Filter>Source Files</Filter>
+      <Filter>Modules\SystemInfo</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
