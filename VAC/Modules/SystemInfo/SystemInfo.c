@@ -22,7 +22,25 @@ typedef struct _SYSTEM_DEVICE_INFORMATION {
     ULONG NumberOfParallelPorts;
 } SYSTEM_DEVICE_INFORMATION, *PSYSTEM_DEVICE_INFORMATION;
 
+typedef struct _SYSTEM_KERNEL_DEBUGGER_INFORMATION {
+    BOOLEAN KernelDebuggerEnabled;
+    BOOLEAN KernelDebuggerNotPresent;
+} SYSTEM_KERNEL_DEBUGGER_INFORMATION, *PSYSTEM_KERNEL_DEBUGGER_INFORMATION;
+
+typedef struct _SYSTEM_BOOT_ENVIRONMENT_INFORMATION {
+    GUID BootIdentifier;
+    FIRMWARE_TYPE FirmwareType;
+    ULONGLONG BootFlags;
+} SYSTEM_BOOT_ENVIRONMENT_INFORMATION, *PSYSTEM_BOOT_ENVIRONMENT_INFORMATION;
+
+typedef struct _SYSTEM_RANGE_START_INFORMATION {
+    PVOID SystemRangeStart;
+} SYSTEM_RANGE_START_INFORMATION, *PSYSTEM_RANGE_START_INFORMATION;
+
 #define SystemDeviceInformation 7
+#define SystemKernelDebuggerInformation 35
+#define SystemBootEnvironmentInformation 90
+#define SystemRangeStartInformation 50
 
 // 55 8B EC B8
 INT SystemInfo_collectData(PVOID unk, PVOID unk1, DWORD data[2048], PDWORD dataSize)
@@ -108,6 +126,18 @@ INT SystemInfo_collectData(PVOID unk, PVOID unk1, DWORD data[2048], PDWORD dataS
                         SYSTEM_DEVICE_INFORMATION sdi;
                         data[22] = _ntQuerySystemInformation(SystemDeviceInformation, &sdi, sizeof(sdi), NULL);
                         data[26] = sdi.NumberOfDisks;
+                        SYSTEM_KERNEL_DEBUGGER_INFORMATION skdi;
+                        data[23] = _ntQuerySystemInformation(SystemKernelDebuggerInformation, &skdi, sizeof(skdi), NULL);
+                        *((PSYSTEM_KERNEL_DEBUGGER_INFORMATION)&data[27]) = skdi;
+                        SYSTEM_BOOT_ENVIRONMENT_INFORMATION sbei;
+                        Utils_memset(&sbei, 0, sizeof(sbei));
+                        data[24] = _ntQuerySystemInformation(SystemBootEnvironmentInformation, &sbei, sizeof(sbei), NULL);
+                        Utils_memcpy(&data[28], &sbei.BootIdentifier, sizeof(sbei.BootIdentifier));
+                        SYSTEM_RANGE_START_INFORMATION srsi;
+                        data[25] = _ntQuerySystemInformation(SystemRangeStartInformation, &srsi, sizeof(srsi), NULL);
+                        data[34] = winApi.GetCurrentProcessId();
+                        data[35] = winApi.GetCurrentThreadId();
+                        data[36] = 1626;
                     }
                 } else {
                     error = GetLastError();
