@@ -11,7 +11,16 @@ typedef struct _SYSTEM_TIMEOFDAY_INFORMATION_ {
     ULONG Reserved;
     ULONGLONG BootTimeBias;
     ULONGLONG SleepTimeBias;
-} SYSTEM_TIMEOFDAY_INFORMATION_, * PSYSTEM_TIMEOFDAY_INFORMATION_;
+} SYSTEM_TIMEOFDAY_INFORMATION_, *PSYSTEM_TIMEOFDAY_INFORMATION_;
+
+typedef struct _SYSTEM_DEVICE_INFORMATION {
+    ULONG NumberOfDisks;
+    ULONG NumberOfFloppies;
+    ULONG NumberOfCdRoms;
+    ULONG NumberOfTapes;
+    ULONG NumberOfSerialPorts;
+    ULONG NumberOfParallelPorts;
+} SYSTEM_DEVICE_INFORMATION, *PSYSTEM_DEVICE_INFORMATION;
 
 #define SystemDeviceInformation 7
 
@@ -96,7 +105,9 @@ INT SystemInfo_collectData(PVOID unk, PVOID unk1, DWORD data[2048], PDWORD dataS
                         sci.Length = sizeof(sci);
                         data[7] = _ntQuerySystemInformation(SystemCodeIntegrityInformation, &sci, sizeof(sci), NULL);
                         data[19] = sci.CodeIntegrityOptions;
-
+                        SYSTEM_DEVICE_INFORMATION sdi;
+                        data[22] = _ntQuerySystemInformation(SystemDeviceInformation, &sdi, sizeof(sdi), NULL);
+                        data[26] = sdi.NumberOfDisks;
                     }
                 } else {
                     error = GetLastError();
