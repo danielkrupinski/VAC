@@ -25,8 +25,10 @@ The module calls `GetNativeSystemInfo` function and reads fields from resultant 
 - wProcessorArchitecture
 - dwProcessorType
 
-Then it calls [`NtQuerySystemInformation`](https://docs.microsoft.com/en-us/windows/win32/api/winternl/nf-winternl-ntquerysysteminformation) API funcion with following `SystemInformationClass` values (in order they appear in code):
-- SystemTimeOfDayInformation
+Then it calls [`NtQuerySystemInformation`](https://docs.microsoft.com/en-us/windows/win32/api/winternl/nf-winternl-ntquerysysteminformation) API function with following `SystemInformationClass` values (in order they appear in code):
+- SystemTimeOfDayInformation - returns undocumented `SYSTEM_TIMEOFDAY_INFORMATION` struct, VAC uses its two field:
+    - LARGE_INTEGER CurrentTime
+    - LARGE_INTEGER BootTime
 - SystemCodeIntegrityInformation
 - SystemDeviceInformation
 - SystemKernelDebuggerInformation
