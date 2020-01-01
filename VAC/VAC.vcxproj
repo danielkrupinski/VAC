@@ -158,6 +158,7 @@
     <ClCompile Include="Encryption\Ice.c" />
     <ClCompile Include="Modules\DeviceInfo\DeviceInfo.c" />
     <ClCompile Include="Modules\DriverInfo\DriverInfo.c" />
+    <ClCompile Include="Modules\SystemInfo\SystemInfo.c" />
     <ClCompile Include="Utils.c" />
     <ClCompile Include="Vector.c" />
   </ItemGroup>

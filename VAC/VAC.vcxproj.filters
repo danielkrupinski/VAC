@@ -58,5 +58,8 @@
     <ClCompile Include="Modules\DriverInfo\DriverInfo.c">
       <Filter>Modules\DriverInfo</Filter>
     </ClCompile>
+    <ClCompile Include="Modules\SystemInfo\SystemInfo.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
