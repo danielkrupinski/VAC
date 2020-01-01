@@ -21,12 +21,16 @@ VAC uses several encryption / hashing methods:
 ### #1 - SystemInfo
 This module is loaded first and sometimes even before any VAC-secured game is launched.
 
-It calls `NtQuerySystemInformation` API funcion with following `SystemInformationClass` values (in order they appear in code):
- - SystemTimeOfDayInformation
- - SystemCodeIntegrityInformation
- - SystemDeviceInformation
- - SystemKernelDebuggerInformation
- - SystemBootEnvironmentInformation
- - SystemRangeStartInformation
+The module calls `GetNativeSystemInfo` function and reads fields from resultant [`SYSTEM_INFO`](https://docs.microsoft.com/en-us/windows/win32/api/sysinfoapi/ns-sysinfoapi-system_info) struct:
+- wProcessorArchitecture
+- dwProcessorType
 
- For more information about `SYSTEM_INFORMATION_CLASS` enum see [Geoff Chappell's page](https://www.geoffchappell.com/studies/windows/km/ntoskrnl/api/ex/sysinfo/class.htm).
+Then it calls [`NtQuerySystemInformation`](https://docs.microsoft.com/en-us/windows/win32/api/winternl/nf-winternl-ntquerysysteminformation) API funcion with following `SystemInformationClass` values (in order they appear in code):
+- SystemTimeOfDayInformation
+- SystemCodeIntegrityInformation
+- SystemDeviceInformation
+- SystemKernelDebuggerInformation
+- SystemBootEnvironmentInformation
+- SystemRangeStartInformation
+
+For more information about `SYSTEM_INFORMATION_CLASS` enum see [Geoff Chappell's page](https://www.geoffchappell.com/studies/windows/km/ntoskrnl/api/ex/sysinfo/class.htm).
