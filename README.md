@@ -13,4 +13,4 @@ VAC uses several encryption / hashing methods:
 - MD5 - hashing data read from process memory
 - ICE - decryption of imported functions names and encryption of scan results
 - CRC32 - hashing table of WinAPI functions addresses
-- Xor - encryption of function names on stack, e.g `NtQuerySystemInformation`. Strings are xor-ed with `^` or `>` char.
+- Xor - encryption of function names on stack, e.g `NtQuerySystemInformation`. Strings are xor-ed with `^` or `>` or `&` char.
