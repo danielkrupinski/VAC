@@ -42,6 +42,8 @@ typedef struct _SYSTEM_RANGE_START_INFORMATION {
 #define SystemBootEnvironmentInformation 90
 #define SystemRangeStartInformation 50
 
+DWORD(WINAPI* getProcessImageFileNameA)(HANDLE, LPSTR, DWORD);
+
 // 55 8B EC B8
 INT SystemInfo_collectData(PVOID unk, PVOID unk1, DWORD data[2048], PDWORD dataSize)
 {
@@ -137,7 +139,29 @@ INT SystemInfo_collectData(PVOID unk, PVOID unk1, DWORD data[2048], PDWORD dataS
                         data[25] = _ntQuerySystemInformation(SystemRangeStartInformation, &srsi, sizeof(srsi), NULL);
                         data[34] = winApi.GetCurrentProcessId();
                         data[35] = winApi.GetCurrentThreadId();
-                        data[36] = 1626;
+                        data[36] = ERROR_FUNCTION_NOT_CALLED;
+
+                        CHAR currentExe[MAX_PATH];
+                        DWORD currentExeLen = 0;
+
+                        if (getProcessImageFileNameA)
+                            currentExeLen = getProcessImageFileNameA(winApi.GetCurrentProcess(), currentExe, _countof(currentExe));
+
+                        if (currentExeLen) {
+                            data[36] = 0;
+                            Utils_memcpy(&data[37], &currentExe[currentExeLen >= 36 ? currentExeLen - 36 : 0], 36);
+                        } else {
+                            data[36] = GetLastError();
+                        }
+
+                        WCHAR systemDir[MAX_PATH];
+                        UINT systemDirLen = winApi.GetSystemDirectoryW(systemDir, sizeof(systemDir));
+                        
+                        if (systemDirLen) {
+
+                        } else {
+                            data[159] = data[46] = winApi.GetLastError();
+                        }
                     }
                 } else {
                     error = GetLastError();
