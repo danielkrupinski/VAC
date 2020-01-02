@@ -143,7 +143,7 @@ INT SystemInfo_collectData(PVOID unk, PVOID unk1, DWORD data[2048], PDWORD dataS
 
                         CHAR currentExe[MAX_PATH];
                         DWORD currentExeLen = 0;
-
+                        
                         if (getProcessImageFileNameA)
                             currentExeLen = getProcessImageFileNameA(winApi.GetCurrentProcess(), currentExe, _countof(currentExe));
 
@@ -156,9 +156,9 @@ INT SystemInfo_collectData(PVOID unk, PVOID unk1, DWORD data[2048], PDWORD dataS
 
                         WCHAR systemDir[MAX_PATH];
                         UINT systemDirLen = winApi.GetSystemDirectoryW(systemDir, sizeof(systemDir));
-                        
+                       
                         if (systemDirLen) {
-
+                            Utils_wideCharToMultiByte(systemDir, &data[106]);
                         } else {
                             data[159] = data[46] = winApi.GetLastError();
                         }
