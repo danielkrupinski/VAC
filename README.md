@@ -33,6 +33,9 @@ Then it calls [`NtQuerySystemInformation`](https://docs.microsoft.com/en-us/wind
 - SystemDeviceInformation - returns [`SYSTEM_DEVICE_INFORMATION`](https://www.geoffchappell.com/studies/windows/km/ntoskrnl/api/ex/sysinfo/device.htm), module saves `NumberOfDisks` field
 - SystemKernelDebuggerInformation - returns [`SYSTEM_KERNEL_DEBUGGER_INFORMATION`](https://www.geoffchappell.com/studies/windows/km/ntoskrnl/api/ex/sysinfo/kernel_debugger.htm), VAC uses whole struct
 - SystemBootEnvironmentInformation - returns [`SYSTEM_BOOT_ENVIRONMENT_INFORMATION`](https://www.geoffchappell.com/studies/windows/km/ntoskrnl/api/ex/sysinfo/boot_environment.htm), VAC copies `BootIdentifier` GUID
-- SystemRangeStartInformation
+- SystemRangeStartInformation - returns `SYSTEM_RANGE_START_INFORMATION` which is just `void*`
 
 For more information about `SYSTEM_INFORMATION_CLASS` enum see [Geoff Chappell's page](https://www.geoffchappell.com/studies/windows/km/ntoskrnl/api/ex/sysinfo/class.htm).
+
+Next, anti-cheat calls [`GetProcessImageFileNameA`](https://docs.microsoft.com/en-us/windows/win32/api/psapi/nf-psapi-getprocessimagefilenamea) function to retrieve path of current executable and **reads last 36 characters** (e.g. `\Program Files (x86)\Steam\Steam.exe`)
+.
