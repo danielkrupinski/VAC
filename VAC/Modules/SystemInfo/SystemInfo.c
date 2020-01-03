@@ -55,7 +55,9 @@ INT SystemInfo_collectData(PVOID unk, PVOID unk1, DWORD data[2048], PDWORD dataS
     CHAR getNativeSystemInfo[] = "\x61\x43\x52\x68\x47\x52\x4F\x50\x43\x75\x5F\x55\x52\x43\x4B\x6F\x48\x40\x49";
     CHAR wow64EnableWow64FsRedirection[] = "\x71\x49\x51\x10\x12\x63\x48\x47\x44\x4A\x43\x71\x49\x51\x10\x12\x60\x55\x74\x43\x42\x4F\x54\x43\x45\x52\x4F\x49\x48";
 
+    Utils_memset(data, 0, 2048);
     *dataSize = 2048;
+    data[4] = 0xA93E4B10;
 
     PWCHAR currW = ntDllWide;
     while (*currW) {
@@ -151,6 +153,7 @@ INT SystemInfo_collectData(PVOID unk, PVOID unk1, DWORD data[2048], PDWORD dataS
 
                         SYSTEM_RANGE_START_INFORMATION srsi;
                         data[25] = _ntQuerySystemInformation(SystemRangeStartInformation, &srsi, sizeof(srsi), NULL);
+                        data[32] = srsi.SystemRangeStart;
                         data[34] = winApi.GetCurrentProcessId();
                         data[35] = winApi.GetCurrentThreadId();
                         data[36] = ERROR_FUNCTION_NOT_CALLED;
@@ -173,17 +176,36 @@ INT SystemInfo_collectData(PVOID unk, PVOID unk1, DWORD data[2048], PDWORD dataS
                        
                         if (systemDirLen) {
                             Utils_wideCharToMultiByte(systemDir, &data[106]);
+
+                            DWORD systemVolumeSerial = 0;
+                            LARGE_INTEGER systemFolderId = { 0 };
+
+                            if (SystemInfo_getFileInfo(systemDir, &systemVolumeSerial, &systemFolderId)) {
+                                data[156] = systemFolderId.LowPart;
+                                data[157] = systemFolderId.HighPart;
+                                data[158] = systemVolumeSerial;
+                            } else {
+                                data[159] = winApi.GetLastError();
+                            }
+
                             systemDir[systemDirLen] = L'\\';
                             Utils_memcpy(systemDir[systemDirLen + 1], ntDllWide, sizeof(ntDllWide));
 
-                            BOOLEAN fsRedirDisabled;
+                            BOOLEAN fsRedirDisabled = FALSE;
                             if (_wow64EnableWow64FsRedirection)
                                 fsRedirDisabled = _wow64EnableWow64FsRedirection(FALSE);
 
-                            // ...
+                            HANDLE ntdllHandle = winApi.CreateFileW(systemDir, GENERIC_READ, FILE_SHARE_READ | FILE_SHARE_WRITE | FILE_SHARE_DELETE, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
+                            DWORD ntdllOpenErr = winApi.GetLastError();
 
                             if (fsRedirDisabled)
                                 _wow64EnableWow64FsRedirection(TRUE);
+                            
+                            if (ntdllHandle != INVALID_HANDLE_VALUE) {
+                               
+                            } else {
+                                data[46] = ntdllOpenErr;
+                            }
                         } else {
                             data[159] = data[46] = winApi.GetLastError();
                         }
