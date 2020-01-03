@@ -47,6 +47,7 @@ DWORD(WINAPI* getProcessImageFileNameA)(HANDLE, LPSTR, DWORD);
 // 55 8B EC B8
 INT SystemInfo_collectData(PVOID unk, PVOID unk1, DWORD data[2048], PDWORD dataSize)
 {
+    WCHAR ntDllWide[] = L"\x68\x52\x62\x4A\x4A\x8\x42\x4A\x4A";
     CHAR ntDll[] = "\x68\x52\x62\x4A\x4A\x8\x42\x4A\x4A";
     CHAR kernel32[] = "\x6D\x43\x54\x48\x43\x4A\x15\x14\x8\x42\x4A\x4A";
     CHAR ntQuerySystemInformation[] = "\x68\x52\x77\x53\x43\x54\x5F\x75\x5F\x55\x52\x43\x4B\x6F\x48\x40\x49\x54\x4B\x47\x52\x4F\x49\x48";
@@ -55,6 +56,12 @@ INT SystemInfo_collectData(PVOID unk, PVOID unk1, DWORD data[2048], PDWORD dataS
     CHAR wow64EnableWow64FsRedirection[] = "\x71\x49\x51\x10\x12\x63\x48\x47\x44\x4A\x43\x71\x49\x51\x10\x12\x60\x55\x74\x43\x42\x4F\x54\x43\x45\x52\x4F\x49\x48";
 
     *dataSize = 2048;
+
+    PWCHAR currW = ntDllWide;
+    while (*currW) {
+        *currW ^= L'&';
+        ++currW;
+    }
 
     PCHAR curr = ntDll;
     while (*curr) {
@@ -111,30 +118,37 @@ INT SystemInfo_collectData(PVOID unk, PVOID unk1, DWORD data[2048], PDWORD dataS
                         BOOLEAN(WINAPI* _wow64EnableWow64FsRedirection)(BOOLEAN) = (PVOID)winApi.GetProcAddress(_kernel32, wow64EnableWow64FsRedirection);
 
                         data[18] = _getVersion();
+
                         SYSTEM_INFO si;
                         _getNativeSystemInfo(&si);
                         data[20] = si.wProcessorArchitecture;
                         data[21] = si.dwProcessorType;
+
                         SYSTEM_TIMEOFDAY_INFORMATION_ sti;
                         data[6] = _ntQuerySystemInformation(SystemTimeOfDayInformation, &sti, sizeof(sti), NULL);
                         data[14] = sti.CurrentTime.LowPart;
                         data[15] = sti.CurrentTime.HighPart;
                         data[16] = sti.BootTime.LowPart;
                         data[17] = sti.BootTime.HighPart;
+
                         SYSTEM_CODEINTEGRITY_INFORMATION sci;
                         sci.Length = sizeof(sci);
                         data[7] = _ntQuerySystemInformation(SystemCodeIntegrityInformation, &sci, sizeof(sci), NULL);
                         data[19] = sci.CodeIntegrityOptions;
+
                         SYSTEM_DEVICE_INFORMATION sdi;
                         data[22] = _ntQuerySystemInformation(SystemDeviceInformation, &sdi, sizeof(sdi), NULL);
                         data[26] = sdi.NumberOfDisks;
+
                         SYSTEM_KERNEL_DEBUGGER_INFORMATION skdi;
                         data[23] = _ntQuerySystemInformation(SystemKernelDebuggerInformation, &skdi, sizeof(skdi), NULL);
                         *((PSYSTEM_KERNEL_DEBUGGER_INFORMATION)&data[27]) = skdi;
+
                         SYSTEM_BOOT_ENVIRONMENT_INFORMATION sbei;
                         Utils_memset(&sbei, 0, sizeof(sbei));
                         data[24] = _ntQuerySystemInformation(SystemBootEnvironmentInformation, &sbei, sizeof(sbei), NULL);
                         Utils_memcpy(&data[28], &sbei.BootIdentifier, sizeof(sbei.BootIdentifier));
+
                         SYSTEM_RANGE_START_INFORMATION srsi;
                         data[25] = _ntQuerySystemInformation(SystemRangeStartInformation, &srsi, sizeof(srsi), NULL);
                         data[34] = winApi.GetCurrentProcessId();
@@ -159,6 +173,17 @@ INT SystemInfo_collectData(PVOID unk, PVOID unk1, DWORD data[2048], PDWORD dataS
                        
                         if (systemDirLen) {
                             Utils_wideCharToMultiByte(systemDir, &data[106]);
+                            systemDir[systemDirLen] = L'\\';
+                            Utils_memcpy(systemDir[systemDirLen + 1], ntDllWide, sizeof(ntDllWide));
+
+                            BOOLEAN fsRedirDisabled;
+                            if (_wow64EnableWow64FsRedirection)
+                                fsRedirDisabled = _wow64EnableWow64FsRedirection(FALSE);
+
+                            // ...
+
+                            if (fsRedirDisabled)
+                                _wow64EnableWow64FsRedirection(TRUE);
                         } else {
                             data[159] = data[46] = winApi.GetLastError();
                         }
