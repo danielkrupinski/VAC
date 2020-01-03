@@ -21,6 +21,10 @@ VAC uses several encryption / hashing methods:
 ### #1 - SystemInfo
 This module is loaded first and sometimes even before any VAC-secured game is launched.
 
+At first module invokes [`GetVersion`](https://docs.microsoft.com/en-us/windows/win32/api/sysinfoapi/nf-sysinfoapi-getversion) function to retrieve **major and build** system version e.g `0x47BB0A00` - which means:
+- 0x47BB - build version (decimal `18363‬`) 
+- 0x0A00 - major version (decimal `10`)
+
 The module calls `GetNativeSystemInfo` function and reads fields from resultant [`SYSTEM_INFO`](https://docs.microsoft.com/en-us/windows/win32/api/sysinfoapi/ns-sysinfoapi-system_info) struct:
 - wProcessorArchitecture
 - dwProcessorType
@@ -37,5 +41,5 @@ Then it calls [`NtQuerySystemInformation`](https://docs.microsoft.com/en-us/wind
 
 For more information about `SYSTEM_INFORMATION_CLASS` enum see [Geoff Chappell's page](https://www.geoffchappell.com/studies/windows/km/ntoskrnl/api/ex/sysinfo/class.htm).
 
-Next, anti-cheat calls [`GetProcessImageFileNameA`](https://docs.microsoft.com/en-us/windows/win32/api/psapi/nf-psapi-getprocessimagefilenamea) function to retrieve path of current executable and **reads last 36 characters** (e.g. `\Program Files (x86)\Steam\Steam.exe`)
-.
+Next, anti-cheat calls [`GetProcessImageFileNameA`](https://docs.microsoft.com/en-us/windows/win32/api/psapi/nf-psapi-getprocessimagefilenamea) function to retrieve path of current executable and **reads last 36 characters** (e.g. `\Program Files (x86)\Steam\Steam.exe`).
+
