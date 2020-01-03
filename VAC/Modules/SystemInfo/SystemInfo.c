@@ -179,10 +179,32 @@ INT SystemInfo_collectData(PVOID unk, PVOID unk1, DWORD data[2048], PDWORD dataS
 }
 
 // 55 8D 6C 24 90
-BOOLEAN SystemInfo_getFileInfo(PCWSTR fileName, DWORD* volumeSerialNumber, DWORD fileIndex[2])
+BOOLEAN SystemInfo_getFileInfo(PCWSTR fileName, DWORD* volumeSerialNumber, PLARGE_INTEGER fileId)
 {
     if (!winApi.GetFileInformationByHandle)
         return FALSE;
 
+    HANDLE file = winApi.CreateFileW(fileName, READ_CONTROL | SYNCHRONIZE | FILE_READ_DATA | FILE_READ_EA | FILE_READ_ATTRIBUTES, FILE_SHARE_READ, NULL, OPEN_EXISTING, FILE_SUPPORTS_USN_JOURNAL, NULL);
+
+    if (file == INVALID_HANDLE_VALUE || !winApi.GetFileInformationByHandleEx)
+        return FALSE;
+
+    FILE_ID_BOTH_DIR_INFO fileInfo;
+    Utils_memset(&fileInfo, 0, 132); // 132 while sizeof(FILE_ID_BOTH_DIR_INFO) = 112 ?
+    BOOL gotInfo = winApi.GetFileInformationByHandleEx(file, FileIdBothDirectoryInfo, &fileInfo, 132);
+    *volumeSerialNumber = 0;
+
+    if (gotInfo && winApi.GetVolumeInformationByHandleW)
+        winApi.GetVolumeInformationByHandleW(file, NULL, 0, volumeSerialNumber, NULL, NULL, NULL, 0);
+
+    winApi.CloseHandle(file);
+
+    if (!gotInfo) {
+        winApi.GetLastError();
+        return 0;
+    }
+    
+    Utils_memcpy(&fileId->LowPart, &fileInfo.FileId.LowPart, sizeof(DWORD));
+    Utils_memcpy(&fileId->HighPart, &fileInfo.FileId.HighPart, sizeof(LONG));
     return TRUE;
 }
