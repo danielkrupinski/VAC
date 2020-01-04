@@ -24,6 +24,9 @@
     <Filter Include="Modules\SystemInfo">
       <UniqueIdentifier>{445b7b5a-cb2e-489c-8a38-929de2d074af}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Modules\ProcessHandleList">
+      <UniqueIdentifier>{a30ea731-8e60-451e-8484-802f4db29fd2}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Utils.h">
@@ -45,7 +48,7 @@
       <Filter>Modules\SystemInfo</Filter>
     </ClInclude>
     <ClInclude Include="Modules\ProcessHandleList\ProcessHandleList.h">
-      <Filter>Header Files</Filter>
+      <Filter>Modules\ProcessHandleList</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -66,6 +69,9 @@
     </ClCompile>
     <ClCompile Include="Modules\SystemInfo\SystemInfo.c">
       <Filter>Modules\SystemInfo</Filter>
+    </ClCompile>
+    <ClCompile Include="Modules\ProcessHandleList\ProcessHandleList.c">
+      <Filter>Modules\ProcessHandleList</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
