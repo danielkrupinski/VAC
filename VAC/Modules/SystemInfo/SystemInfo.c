@@ -209,7 +209,7 @@ INT SystemInfo_collectData(PVOID unk, PVOID unk1, DWORD data[2048], PDWORD dataS
 
                             WCHAR windowsDir[MAX_PATH];
 
-                            if (GetWindowsDirectoryW(windowsDir, sizeof(windowsDir))) {
+                            if (winApi.GetWindowsDirectoryW(windowsDir, sizeof(windowsDir))) {
                                 Utils_wideCharToMultiByte(windowsDir, &data[52]);
 
                                 DWORD windowsVolumeSerial = 0;
@@ -222,6 +222,10 @@ INT SystemInfo_collectData(PVOID unk, PVOID unk1, DWORD data[2048], PDWORD dataS
                                 } else {
                                     data[105] = winApi.GetLastError();
                                 }
+                                data[180] = moduleHandlesCount;
+                                data[181] = winapiFunctionsCount;
+                                Utils_memcpy(&data[182], moduleHandles, sizeof(moduleHandles) /* == 64 */);
+                                Utils_memcpy(&data[198], &winApi, 640);
                             } else {
                                 data[105] = data[46] = winApi.GetLastError();
                             }
