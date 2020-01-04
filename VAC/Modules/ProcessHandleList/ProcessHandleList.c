@@ -7,25 +7,26 @@
 
 HMODULE ntdll;
 
-typedef struct _SYSTEM_HANDLE
-{
+typedef struct _SYSTEM_HANDLE {
     ULONG ProcessId;
-    BYTE ObjectTypeNumber;
-    BYTE Flags;
-    USHORT Handle;
+    UCHAR ObjectTypeIndex;
+    UCHAR HandleAttributes;
+    USHORT HandleValue;
     PVOID Object;
-    ACCESS_MASK GrantedAccess;
-} SYSTEM_HANDLE, * PSYSTEM_HANDLE;
+    ULONG GrantedAccess;
+} SYSTEM_HANDLE, *PSYSTEM_HANDLE;
 
 typedef struct _SYSTEM_HANDLE_INFORMATION {
     ULONG HandleCount;
     SYSTEM_HANDLE Handles[1];
-} SYSTEM_HANDLE_INFORMATION, * PSYSTEM_HANDLE_INFORMATION;
+} SYSTEM_HANDLE_INFORMATION, *PSYSTEM_HANDLE_INFORMATION;
 
 #define SystemHandleInformation 16
 
+#define __PAIR__(high, low) (((unsigned long)(high)<<sizeof(high)*8) | low)
+
 // 83 EC 2C
-INT ProcessHandleList_getSystemHandles(DWORD pids[500], INT pidCount, INT unused, DWORD* handleCount, DWORD* systemHandleCount, DWORD* out)
+INT ProcessHandleList_getSystemHandles(DWORD pids[500], INT pidCount, INT unused, DWORD* handleCount, DWORD* systemHandleCount, LARGE_INTEGER out[500])
 {
     CHAR ntQuerySystemInformation[] = { "\x10\x2a\xf\x2b\x3b\x2c\x27\xd\x27\x2d\x2a\x3b\x33\x17\x30\x38\x31\x2c\x33\x3f\x2a\x37\x31\x30\x5e" }; // NtQuerySystemInformation xored with '^'
 
@@ -54,52 +55,59 @@ INT ProcessHandleList_getSystemHandles(DWORD pids[500], INT pidCount, INT unused
             result = NtQuerySystemInformation(SystemHandleInformation, handleInfo, handleInfoLength, NULL);
 
             if (result != STATUS_INFO_LENGTH_MISMATCH) {
-
                 if (result == STATUS_SUCCESS) {
                     *systemHandleCount = handleInfo->HandleCount;
                     *handleCount = 0;
 
-                    if (handleInfo->HandleCount > 15) {
+                    INT counter = 0;
 
-                        INT counter = 0;
+                    for (ULONG i = 0; i < handleInfo->HandleCount; ++i) {
+                        SYSTEM_HANDLE handle = handleInfo->Handles[i];
 
-                        SYSTEM_HANDLE handle = handleInfo->Handles[0];
+                        for (INT j = 0; j < pidCount; ++j) {
+                            if (pids[counter] == handle.ProcessId)
+                                break;
 
-                        for (INT i = 0; i < pidCount; i++) {
-                            if (pids[counter] == handle.ProcessId) {
-
-                                INT unknown = 0;
-                                INT unknown_2 = 0;
-
-                                if (handle.ObjectTypeNumber < 55) {
-                                    if (handle.ObjectTypeNumber >= 32)
-                                        unknown = 1 << handle.ObjectTypeNumber;
-                                    unknown_2 = unknown ^ (1 << handle.ObjectTypeNumber);
+                            if (++counter >= pidCount)
+                                counter %= pidCount;
+                        }
 
 
-                                }
-                                // TODO: reverse it
+                        if (pids[counter] == handle.ProcessId) {
+                            INT unknown1 = 0, unknown2 = 0;
 
+                            if (handle.ObjectTypeIndex < 0x37) {
+                                if (handle.ObjectTypeIndex >= 0x20)
+                                    unknown2 = 1 << handle.ObjectTypeIndex;
+
+                                unknown1 = unknown2 ^ (1 << handle.ObjectTypeIndex);
+
+                                if (handle.ObjectTypeIndex >= 0x40)
+                                    unknown2 ^= 1 << handle.ObjectTypeIndex;
                             }
 
-                            if (++counter >= i)
-                                counter %= i;
-                        }
+                            LONG highPart = out[counter].HighPart;
+                            if (highPart < 0xFF000000)
+                                highPart = (__PAIR__(highPart, out[counter].LowPart) + 0x100000000000000) >> 32;
 
-                        ++* handleCount;
+                            out[counter].LowPart |= unknown1;
+                            out[counter].HighPart = unknown2 | highPart;
+                        } else {
+                            ++*handleCount;
 
-                        if (pidCount < 500) {
-
-                            pids[pidCount] = handle.ProcessId;
-                            counter = pidCount++;
+                            if (pidCount < 500) {
+                                pids[pidCount] = handle.ProcessId;
+                                counter = pidCount++;
+                            }
                         }
                     }
+                    result = 0;
                 }
-
                 if (handleInfo)
                     winApi.VirtualFree(handleInfo, 0, MEM_RELEASE);
                 return result;
             }
         }
     }
+    return winApi.GetLastError();
 }
