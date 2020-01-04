@@ -202,9 +202,28 @@ INT SystemInfo_collectData(PVOID unk, PVOID unk1, DWORD data[2048], PDWORD dataS
                                 _wow64EnableWow64FsRedirection(TRUE);
                             
                             if (ntdllHandle != INVALID_HANDLE_VALUE) {
-                               
+                               // read ntdll.dll file and do some processing
                             } else {
                                 data[46] = ntdllOpenErr;
+                            }
+
+                            WCHAR windowsDir[MAX_PATH];
+
+                            if (GetWindowsDirectoryW(windowsDir, sizeof(windowsDir))) {
+                                Utils_wideCharToMultiByte(windowsDir, &data[52]);
+
+                                DWORD windowsVolumeSerial = 0;
+                                LARGE_INTEGER windowsFolderId = { 0 };
+
+                                if (SystemInfo_getFileInfo(systemDir, &windowsVolumeSerial, &windowsFolderId)) {
+                                    data[102] = windowsFolderId.LowPart;
+                                    data[103] = windowsFolderId.HighPart;
+                                    data[104] = windowsVolumeSerial;
+                                } else {
+                                    data[105] = winApi.GetLastError();
+                                }
+                            } else {
+                                data[105] = data[46] = winApi.GetLastError();
                             }
                         } else {
                             data[159] = data[46] = winApi.GetLastError();
