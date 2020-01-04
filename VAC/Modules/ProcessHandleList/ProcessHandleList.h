@@ -3,4 +3,4 @@
 #include <Windows.h>
 
 // 83 EC 2C
-INT Utils_getSystemHandles(DWORD[500], INT, INT, DWORD*, DWORD*, DWORD*);
+INT ProcessHandleList_getSystemHandles(DWORD pids[500], INT pidCount, INT unused, DWORD* handleCount, DWORD* systemHandleCount, DWORD* out);
