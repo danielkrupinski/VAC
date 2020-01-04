@@ -48,6 +48,6 @@ Anti-cheat queries folder FileID (using [`GetFileInformationByHandleEx`](https:/
 
 Module reads `NtDll.dll` file from **system directory** and does some processing on it (not reversed yet).
 
-
+VAC saves **handles (base addresses) of imported system dlls** (max 16, this VAC module loads 12 dlls) and **pointer to WINAPI functions** (max 160, module uses 172 functions‬). This is done to detect **import address table hooking**, if **function address** is lower than corresponding **module base**, function has been hooked.
 
 Eventually, module encrypts data (2048 bytes), DWORD by DWORD XORing with key received from server (e.g 0x1D4855D3)
