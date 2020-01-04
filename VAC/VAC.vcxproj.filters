@@ -44,6 +44,9 @@
     <ClInclude Include="Modules\SystemInfo\SystemInfo.h">
       <Filter>Modules\SystemInfo</Filter>
     </ClInclude>
+    <ClInclude Include="Modules\ProcessHandleList\ProcessHandleList.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Utils.c">

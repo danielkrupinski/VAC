@@ -43,3 +43,4 @@ For more information about `SYSTEM_INFORMATION_CLASS` enum see [Geoff Chappell's
 
 Next, anti-cheat calls [`GetProcessImageFileNameA`](https://docs.microsoft.com/en-us/windows/win32/api/psapi/nf-psapi-getprocessimagefilenamea) function to retrieve path of current executable and **reads last 36 characters** (e.g. `\Program Files (x86)\Steam\Steam.exe`).
 
+Eventually, module encrypts data (2048 bytes), DWORD by DWORD XORing with key received from server (e.g 0x1D4855D3)
