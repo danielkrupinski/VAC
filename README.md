@@ -43,4 +43,11 @@ For more information about `SYSTEM_INFORMATION_CLASS` enum see [Geoff Chappell's
 
 Next, anti-cheat calls [`GetProcessImageFileNameA`](https://docs.microsoft.com/en-us/windows/win32/api/psapi/nf-psapi-getprocessimagefilenamea) function to retrieve path of current executable and **reads last 36 characters** (e.g. `\Program Files (x86)\Steam\Steam.exe`).
 
+Later VAC retrieves **system directory path** (e.g `C:\WINDOWS\system32`) using [`GetSystemDirectoryW`](https://docs.microsoft.com/en-us/windows/win32/api/sysinfoapi/nf-sysinfoapi-getsystemdirectoryw), converts it from wide-char to multibyte string, and stores it (max length of multibyte string - 200).
+Anti-cheat queries folder FileID (using [`GetFileInformationByHandleEx`](https://docs.microsoft.com/en-us/windows/win32/api/winbase/nf-winbase-getfileinformationbyhandleex)) and **volume serial number** ([`GetVolumeInformationByHandleW`](https://docs.microsoft.com/en-us/windows/win32/api/fileapi/nf-fileapi-getvolumeinformationbyhandlew)). Further it does the same with **windows directory** got from [`GetWindowsDirectoryW`](https://docs.microsoft.com/en-us/windows/win32/api/sysinfoapi/nf-sysinfoapi-getwindowsdirectoryw) API.
+
+Module reads `NtDll.dll` file from **system directory** and does some processing on it (not reversed yet).
+
+
+
 Eventually, module encrypts data (2048 bytes), DWORD by DWORD XORing with key received from server (e.g 0x1D4855D3)
