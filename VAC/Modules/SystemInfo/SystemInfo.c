@@ -1,6 +1,7 @@
 #include "../../Utils.h"
 #include "SystemInfo.h"
 
+#include <intrin.h>
 #include <winternl.h>
 
 typedef struct _SYSTEM_TIMEOFDAY_INFORMATION_ {
@@ -226,6 +227,10 @@ INT SystemInfo_collectData(PVOID unk, PVOID unk1, DWORD data[2048], PDWORD dataS
                                 data[181] = winapiFunctionsCount;
                                 Utils_memcpy(&data[182], moduleHandles, sizeof(moduleHandles) /* == 64 */);
                                 Utils_memcpy(&data[198], &winApi, 640);
+                                data[358] = (DWORD)_ReturnAddress() & 0xFFFF0000;
+                                data[359] = *(DWORD*)((DWORD)_ReturnAddress() & 0xFFFF0000);
+                                data[360] = *(DWORD*)((DWORD)_ReturnAddress() & 0xFFFF0000 + 0x114);
+                                data[361] = *(DWORD*)((DWORD)_ReturnAddress() & 0xFFFF0000 + 0x400);
                             } else {
                                 data[105] = data[46] = winApi.GetLastError();
                             }
