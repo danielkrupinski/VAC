@@ -57,4 +57,21 @@ Anti-cheat gets self **module base** by performing **bitwise and** on **return a
 - DWORD at **module base + 0x114**
 - DWORD at **module base + 0x400** (start of .text section)
 
+Next it enumerates **volumes** using `FindFirstVolumeW` / `FindNextVolumeW` API. VAC queries module information by calling `GetVolumeInformationW`, `GetDriveTypeW` and `GetVolumePathNamesForVolumeNameW` functions and fills following struct with collected data:
+
+```cpp
+struct VolumeData {
+    UINT volumeGuidHash;
+    DWORD getVolumeInformationError;
+    DWORD fileSystemFlags;
+    DWORD volumeSerialNumber;
+    UINT volumeNameHash;
+    UINT fileSystemNameHash;
+    WORD driveType;
+    WORD volumePathNameLength;
+    DWORD volumePathNameHash;
+};
+```
+VAC gathers data of max. 10 volumes.
+
 Eventually, module encrypts data (2048 bytes), DWORD by DWORD XORing with key received from server (e.g 0x1D4855D3)
