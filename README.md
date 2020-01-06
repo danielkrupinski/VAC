@@ -51,6 +51,10 @@ Module reads `NtDll.dll` file from **system directory** and does some processing
 
 VAC saves **handles (base addresses) of imported system dlls** (max 16, this VAC module loads 12 dlls) and **pointers to WINAPI functions** (max 160, module uses 172 functions‬). This is done to detect **import address table hooking** on anti-cheat module, if **function address** is lower than corresponding **module base**, function has been hooked.
 
-
+Anti-cheat gets self **module base** by performing **bitwise and** on **return address** (`_ReturnAddress() & 0xFFFF0000`). Then it collects:
+- module base address
+- first four bytes at module base address (from DOS header)
+- DWORD at **module base + 0x114**
+- DWORD at **module base + 0x400** (start of .text section)
 
 Eventually, module encrypts data (2048 bytes), DWORD by DWORD XORing with key received from server (e.g 0x1D4855D3)
