@@ -74,4 +74,6 @@ struct VolumeData {
 ```
 VAC gathers data of max. 10 volumes.
 
+If this module was streamed after VAC-secured game had started, it attemps to get handle to the game process (using `OpenProcess` API).
+
 Eventually, module encrypts data (2048 bytes), DWORD by DWORD XORing with key received from server (e.g 0x1D4855D3)
