@@ -70,7 +70,7 @@ struct VolumeData {
     WORD driveType;
     WORD volumePathNameLength;
     DWORD volumePathNameHash;
-};
+}; // sizeof(VolumeData) == 32
 ```
 VAC gathers data of max. 10 volumes.
 
