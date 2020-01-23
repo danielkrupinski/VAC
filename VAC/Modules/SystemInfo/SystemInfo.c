@@ -155,6 +155,7 @@ INT SystemInfo_collectData(PVOID unk, PVOID unk1, DWORD data[2048], PDWORD dataS
                         SYSTEM_RANGE_START_INFORMATION srsi;
                         data[25] = _ntQuerySystemInformation(SystemRangeStartInformation, &srsi, sizeof(srsi), NULL);
                         data[32] = srsi.SystemRangeStart;
+                        data[33] = (INT)srsi.SystemRangeStart >> 31;
                         data[34] = winApi.GetCurrentProcessId();
                         data[35] = winApi.GetCurrentThreadId();
                         data[36] = ERROR_FUNCTION_NOT_CALLED;
