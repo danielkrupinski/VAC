@@ -20,9 +20,11 @@ typedef struct SystemInfo {
     DWORD scanError;
     NTSTATUS queryTimeInfo;
     NTSTATUS queryCodeIntegrity;
+    /* TODO: time + something from KUSER_SHARED_DATA */
     DWORD unk;
     DWORD unk1;
     DWORD pad[4];
+    /* END */
     LARGE_INTEGER currentTime;
     LARGE_INTEGER bootTime;
     DWORD systemVersion;
@@ -42,10 +44,33 @@ typedef struct SystemInfo {
     DWORD currentThreadId;
     DWORD getCurrentExeNameError;
     CHAR currentExeName[36];
-    DWORD winApiError;
+    DWORD winapiError;
     DWORD pad2[5];
     CHAR windowsDir[200];
-    // ...
+    LARGE_INTEGER windowsFolderId;
+    DWORD windowsVolumeSerial;
+    DWORD getWindowsDirError;
+    CHAR systemDir[200];
+    LARGE_INTEGER systemFolderId;
+    DWORD systemVolumeSerial;
+    DWORD getSystemDirError;
+    DWORD pad3[20];
+    INT moduleHandlesCount;
+    INT winapiFunctionsCount;
+    HMODULE moduleHandles[16];
+    PVOID winapiFunctions[160];
+    DWORD vacModuleBase;
+    DWORD vacModuleBaseVal;
+    DWORD vacModuleSomething;
+    DWORD vacModuleTextStart;
+    DWORD unk2;
+    INT volumeCount;
+    VolumeData volumes[10];
+    DWORD gamePidFromSteam;
+    HANDLE gameProcessHandle;
+    DWORD gameProcessOpenError;
+    DWORD gamePid;
+    DWORD unused[64];
 } SystemInfo;
 
 // 55 8B EC B8
