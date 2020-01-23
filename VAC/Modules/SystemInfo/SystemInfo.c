@@ -285,7 +285,7 @@ BOOLEAN SystemInfo_getFileInfo(PCWSTR fileName, DWORD* volumeSerialNumber, PLARG
 }
 
 // E8 ? ? ? ? 89 86
-INT SystemInfo_enumVolumes(PVOID out)
+INT SystemInfo_enumVolumes(VolumeData volumes[10])
 {
     INT volCount = 0;
 
@@ -320,12 +320,27 @@ INT SystemInfo_enumVolumes(PVOID out)
         } else {
             volData.getVolumeInformationError = winApi.GetLastError();
         }
-
         volData.driveType = winApi.GetDriveTypeW(vol);
-        // TODO: GetVolumePathNamesForVolumeNameW
-        
+
+        WCHAR volPathName[50];
+        DWORD volPathNameLen;
+        UINT volPathNameHash;
+
+        if (GetVolumePathNamesForVolumeNameW(volGuid, volPathName, 50, &volPathNameLen)) {
+            volData.volumePathNameLength = volPathNameLen;
+            volPathNameHash = Utils_hash(volPathName, lstrlenW(volPathName));
+        } else {
+            volData.volumePathNameLength = 0;
+            volPathNameHash = winApi.GetLastError();
+        }
+
+        volData.volumePathNameHash = volPathNameHash;
+
+        if (volCount < 10)
+            volumes[volCount] = volData;
+
         ++volCount;
     } while (winApi.FindNextVolumeW(vol, volGuid, MAX_PATH));
     winApi.FindVolumeClose(vol);
-    return 0;
+    return volCount;
 }

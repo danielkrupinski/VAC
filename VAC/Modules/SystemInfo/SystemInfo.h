@@ -28,4 +28,4 @@ INT SystemInfo_collectData(PVOID unk, PVOID unk1, DWORD data[2048], PDWORD dataS
 BOOLEAN SystemInfo_getFileInfo(PCWSTR fileName, DWORD* volumeSerialNumber, PLARGE_INTEGER fileId);
 
 // E8 ? ? ? ? 89 86
-INT SystemInfo_enumVolumes(PVOID out);
+INT SystemInfo_enumVolumes(VolumeData volumes[10]);
