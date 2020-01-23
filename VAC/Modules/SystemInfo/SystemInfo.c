@@ -231,6 +231,24 @@ INT SystemInfo_collectData(PVOID unk, PVOID unk1, DWORD data[2048], PDWORD dataS
                                 data[359] = *(DWORD*)((DWORD)_ReturnAddress() & 0xFFFF0000);
                                 data[360] = *(DWORD*)((DWORD)_ReturnAddress() & 0xFFFF0000 + 0x114);
                                 data[361] = *(DWORD*)((DWORD)_ReturnAddress() & 0xFFFF0000 + 0x400);
+                                data[363] = SystemInfo_enumVolumes((VolumeData*)&data[364]);
+
+                                DWORD gamePid = *((DWORD*)unk1 + 24);
+                                data[444] = gamePid;
+
+                                if (gamePid) {
+                                    HANDLE gameHandle = winApi.OpenProcess(PROCESS_QUERY_INFORMATION, FALSE, gamePid);
+
+                                    if (gameHandle && gameHandle != INVALID_HANDLE_VALUE) {
+                                        data[445] = gameHandle;
+                                        data[446] = 0;
+                                        data[447] = winApi.GetProcessId(gameHandle);
+                                        winApi.CloseHandle(gameHandle);
+                                    } else {
+                                        data[445] = 0;
+                                        data[446] = winApi.GetLastError();
+                                    }
+                                }
                             } else {
                                 data[105] = data[46] = winApi.GetLastError();
                             }
@@ -326,7 +344,7 @@ INT SystemInfo_enumVolumes(VolumeData volumes[10])
         DWORD volPathNameLen;
         UINT volPathNameHash;
 
-        if (GetVolumePathNamesForVolumeNameW(volGuid, volPathName, 50, &volPathNameLen)) {
+        if (winApi.GetVolumePathNamesForVolumeNameW(volGuid, volPathName, 50, &volPathNameLen)) {
             volData.volumePathNameLength = volPathNameLen;
             volPathNameHash = Utils_hash(volPathName, lstrlenW(volPathName));
         } else {
