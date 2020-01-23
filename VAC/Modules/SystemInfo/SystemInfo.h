@@ -18,6 +18,26 @@ typedef struct SystemInfo {
     DWORD unknown[4];
     DWORD scanType; // initialized to 0xA93E4B10
     DWORD scanError;
+    NTSTATUS queryTimeInfo;
+    NTSTATUS queryCodeIntegrity;
+    DWORD unk;
+    DWORD unk1;
+    DWORD pad[4];
+    LARGE_INTEGER currentTime;
+    LARGE_INTEGER bootTime;
+    DWORD systemVersion;
+    ULONG codeIntegrityOptions;
+    DWORD processorArchitecture;
+    DWORD processorType;
+    NTSTATUS queryDeviceInfo;
+    NTSTATUS queryKernelDebuggerInfo;
+    NTSTATUS queryBootEnvironmentInfo;
+    NTSTATUS queryRangeStartInfo;
+    ULONG numberOfDisks;
+    DWORD kernelDebuggerInfo;
+    GUID bootIdentifier;
+    PVOID systemRangeStart;
+    PVOID systemRangeExtended;
     // ...
 } SystemInfo;
 
