@@ -38,6 +38,13 @@ typedef struct SystemInfo {
     GUID bootIdentifier;
     PVOID systemRangeStart;
     PVOID systemRangeExtended;
+    DWORD currentProcessId;
+    DWORD currentThreadId;
+    DWORD getCurrentExeNameError;
+    CHAR currentExeName[36];
+    DWORD winApiError;
+    DWORD pad2[5];
+    CHAR windowsDir[200];
     // ...
 } SystemInfo;
 
