@@ -217,7 +217,7 @@ INT SystemInfo_collectData(PVOID unk, PVOID unk1, DWORD data[2048], PDWORD dataS
                                 DWORD windowsVolumeSerial = 0;
                                 LARGE_INTEGER windowsFolderId = { 0 };
 
-                                if (SystemInfo_getFileInfo(systemDir, &windowsVolumeSerial, &windowsFolderId)) {
+                                if (SystemInfo_getFileInfo(windowsDir, &windowsVolumeSerial, &windowsFolderId)) {
                                     data[102] = windowsFolderId.LowPart;
                                     data[103] = windowsFolderId.HighPart;
                                     data[104] = windowsVolumeSerial;
