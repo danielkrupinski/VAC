@@ -306,4 +306,4 @@ BOOLEAN Utils_findAsnString(AsnInteger32, PBYTE);
 INT Utils_enumProcesses(DWORD[500], DWORD[500]);
 
 // B8 ? ? ? ? 85 D2
-INT Utils_hash(PCSTR str, INT count);
+UINT Utils_hash(LPCVOID data, INT count);

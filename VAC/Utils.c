@@ -409,12 +409,12 @@ INT Utils_enumProcesses(DWORD pids[500], DWORD parentPids[500])
 }
 
 // B8 ? ? ? ? 85 D2
-INT Utils_hash(PCSTR str, INT count)
+UINT Utils_hash(LPCVOID data, INT count)
 {
-    INT hash = 0x45D71892;
+    UINT hash = 0x45D71892;
 
     while (count) {
-        hash = (*str++ | 0x20) + 0x21 * hash;
+        hash = (*((PBYTE)data)++ | 32) + 33 * hash;
         count--;
     }
     return hash;
