@@ -38,7 +38,7 @@ Then it calls [`NtQuerySystemInformation`](https://docs.microsoft.com/en-us/wind
 - SystemDeviceInformation - returns [`SYSTEM_DEVICE_INFORMATION`](https://www.geoffchappell.com/studies/windows/km/ntoskrnl/api/ex/sysinfo/device.htm), module saves `NumberOfDisks` field
 - SystemKernelDebuggerInformation - returns [`SYSTEM_KERNEL_DEBUGGER_INFORMATION`](https://www.geoffchappell.com/studies/windows/km/ntoskrnl/api/ex/sysinfo/kernel_debugger.htm), VAC uses whole struct
 - SystemBootEnvironmentInformation - returns [`SYSTEM_BOOT_ENVIRONMENT_INFORMATION`](https://www.geoffchappell.com/studies/windows/km/ntoskrnl/api/ex/sysinfo/boot_environment.htm), VAC copies `BootIdentifier` GUID
-- SystemRangeStartInformation - returns `SYSTEM_RANGE_START_INFORMATION` which is just `void*`
+- SystemRangeStartInformation - returns `SYSTEM_RANGE_START_INFORMATION` which is just `void*`. Anti-cheat saves returned **kernel space start address** and **sign bit** of that address (to check if executable inside which VAC is running is linked with [`LARGEADDRESSAWARE`](https://docs.microsoft.com/en-us/cpp/build/reference/largeaddressaware-handle-large-addresses) option)
 
 For more information about `SYSTEM_INFORMATION_CLASS` enum see [Geoff Chappell's page](https://www.geoffchappell.com/studies/windows/km/ntoskrnl/api/ex/sysinfo/class.htm).
 
