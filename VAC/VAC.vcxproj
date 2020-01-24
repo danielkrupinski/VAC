@@ -168,6 +168,7 @@
     <ClInclude Include="Modules\DeviceInfo\DeviceInfo.h" />
     <ClInclude Include="Modules\DriverInfo\DriverInfo.h" />
     <ClInclude Include="Modules\ProcessHandleList\ProcessHandleList.h" />
+    <ClInclude Include="Modules\ProcessMonitor\ProcessMonitor.h" />
     <ClInclude Include="Modules\SystemInfo\SystemInfo.h" />
     <ClInclude Include="Utils.h" />
     <ClInclude Include="Vector.h" />
