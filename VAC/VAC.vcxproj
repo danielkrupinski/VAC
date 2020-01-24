@@ -159,6 +159,7 @@
     <ClCompile Include="Modules\DeviceInfo\DeviceInfo.c" />
     <ClCompile Include="Modules\DriverInfo\DriverInfo.c" />
     <ClCompile Include="Modules\ProcessHandleList\ProcessHandleList.c" />
+    <ClCompile Include="Modules\ProcessMonitor\ProcessMonitor.c" />
     <ClCompile Include="Modules\SystemInfo\SystemInfo.c" />
     <ClCompile Include="Utils.c" />
     <ClCompile Include="Vector.c" />

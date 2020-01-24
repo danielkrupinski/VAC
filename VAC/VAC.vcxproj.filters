@@ -79,5 +79,8 @@
     <ClCompile Include="Modules\ProcessHandleList\ProcessHandleList.c">
       <Filter>Modules\ProcessHandleList</Filter>
     </ClCompile>
+    <ClCompile Include="Modules\ProcessMonitor\ProcessMonitor.c">
+      <Filter>Modules\ProcessMonitor</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
