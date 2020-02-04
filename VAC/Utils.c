@@ -39,15 +39,6 @@ VOID Utils_initializeMD5(DWORD* md5)
     md5[5] = 0;
 }
 
-// 8B 44 24 0C 53
-INT Utils_memcmp(PVOID str1, PVOID str2, SIZE_T count)
-{
-    for (SIZE_T i = 0; i < count; i++)
-        if (((PBYTE)str1)[i] != ((PBYTE)str2)[i])
-            return ((PBYTE)str1)[i] - ((PBYTE)str2)[i];
-    return 0;
-}
-
 // 52 85 C9
 LPVOID Utils_heapReAlloc(LPVOID memory, SIZE_T size)
 {
@@ -316,7 +307,7 @@ BOOLEAN Utils_retrieveAsnValue(AsnInteger32* out)
     AsnInteger32 errorStatus, errorIndex;
 
     if (snmp.SnmpExtensionQuery(SNMP_PDU_GET, &varBindList, &errorStatus, &errorIndex) && !errorStatus && varBindList.len && varBindList.list->name.idLength == 14) {
-        if (!Utils_memcmp((PBYTE)varBindList.list->name.ids, (PBYTE)snmpIds, sizeof(snmpIds)) && varBindList.list->value.asnType == ASN_IPADDRESS && varBindList.list->value.asnValue.counter64.HighPart == 4) {
+        if (!memcmp((PBYTE)varBindList.list->name.ids, (PBYTE)snmpIds, sizeof(snmpIds)) && varBindList.list->value.asnType == ASN_IPADDRESS && varBindList.list->value.asnValue.counter64.HighPart == 4) {
             *out = varBindList.list->value.asnValue.number;
             snmp.SnmpUtilVarBindFree(varBind);
             return TRUE;
@@ -348,7 +339,7 @@ BOOLEAN Utils_findAsnString(AsnInteger32 asnValue, PBYTE out)
     BOOLEAN result = FALSE;
 
     while (!result) {
-        if (!snmp.SnmpExtensionQuery(SNMP_PDU_GETNEXT, &varBindList, &errorStatus, &errorIndex) || errorStatus || varBindList.list->name.idLength < 15 || Utils_memcmp(varBindList.list->name.ids, snmpIds2, sizeof(snmpIds2)))
+        if (!snmp.SnmpExtensionQuery(SNMP_PDU_GETNEXT, &varBindList, &errorStatus, &errorIndex) || errorStatus || varBindList.list->name.idLength < 15 || memcmp(varBindList.list->name.ids, snmpIds2, sizeof(snmpIds2)))
             break;
 
         if (varBindList.list->name.ids[11] | varBindList.list->name.ids[12] | (((varBindList.list->name.ids[14] << 8) | varBindList.list->name.ids[13] << 8)) << 8 == asnValue && varBindList.list->value.asnType == ASN_OCTETSTRING && varBindList.list->value.asnValue.counter64.HighPart == 6) {
