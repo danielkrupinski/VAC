@@ -56,7 +56,7 @@ INT SystemInfo_collectData(PVOID unk, PVOID unk1, DWORD data[2048], PDWORD dataS
     CHAR getNativeSystemInfo[] = "\x61\x43\x52\x68\x47\x52\x4F\x50\x43\x75\x5F\x55\x52\x43\x4B\x6F\x48\x40\x49";
     CHAR wow64EnableWow64FsRedirection[] = "\x71\x49\x51\x10\x12\x63\x48\x47\x44\x4A\x43\x71\x49\x51\x10\x12\x60\x55\x74\x43\x42\x4F\x54\x43\x45\x52\x4F\x49\x48";
 
-    Utils_memset(data, 0, 2048);
+    memset(data, 0, 2048);
     *dataSize = 2048;
     data[4] = 0xA93E4B10;
 
@@ -148,7 +148,7 @@ INT SystemInfo_collectData(PVOID unk, PVOID unk1, DWORD data[2048], PDWORD dataS
                         *((PSYSTEM_KERNEL_DEBUGGER_INFORMATION)&data[27]) = skdi;
 
                         SYSTEM_BOOT_ENVIRONMENT_INFORMATION sbei;
-                        Utils_memset(&sbei, 0, sizeof(sbei));
+                        memset(&sbei, 0, sizeof(sbei));
                         data[24] = _ntQuerySystemInformation(SystemBootEnvironmentInformation, &sbei, sizeof(sbei), NULL);
                         memcpy(&data[28], &sbei.BootIdentifier, sizeof(sbei.BootIdentifier));
 
@@ -284,7 +284,7 @@ BOOLEAN SystemInfo_getFileInfo(PCWSTR fileName, DWORD* volumeSerialNumber, PLARG
         return FALSE;
 
     FILE_ID_BOTH_DIR_INFO fileInfo;
-    Utils_memset(&fileInfo, 0, 132); // 132 while sizeof(FILE_ID_BOTH_DIR_INFO) = 112 ?
+    memset(&fileInfo, 0, 132); // 132 while sizeof(FILE_ID_BOTH_DIR_INFO) = 112 ?
     BOOL gotInfo = winApi.GetFileInformationByHandleEx(file, FileIdBothDirectoryInfo, &fileInfo, 132);
     *volumeSerialNumber = 0;
 

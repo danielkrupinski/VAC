@@ -57,7 +57,7 @@ DWORD DriverInfo_getDriverInfo(DriverInfo* data, INT driverNameHash)
         if (serviceStatus && serviceConfig) {
             DWORD bytesNeeded, servicesReturned, resumeHandle;
             if ((winApi.EnumServicesStatusW(scManager, SERVICE_DRIVER, SERVICE_ACTIVE, serviceStatus, 65536, &bytesNeeded, &servicesReturned, &resumeHandle) || winApi.GetLastError() == ERROR_MORE_DATA) && servicesReturned > 0) {
-                Utils_memset((PBYTE)serviceStatus, 0, 65536);
+                memset((PBYTE)serviceStatus, 0, 65536);
                 LPENUM_SERVICE_STATUSW currentServiceStatus = serviceStatus;
                 
                 for (DWORD i = 0; i < servicesReturned; ++i) {

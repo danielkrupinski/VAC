@@ -39,15 +39,6 @@ VOID Utils_initializeMD5(DWORD* md5)
     md5[5] = 0;
 }
 
-// 8B 4C 24 0C 85 C9
-PBYTE Utils_memset(PBYTE dest, INT value, INT size)
-{
-    for (INT i = 0; i < size; i++)
-        dest[i] = value;
-
-    return dest;
-}
-
 // 8B 44 24 0C 53
 INT Utils_memcmp(PVOID str1, PVOID str2, SIZE_T count)
 {
@@ -139,7 +130,7 @@ VOID Utils_resetFunctionsAndModuleHandles(VOID)
     }
     moduleHandlesCount = 0;
 
-    Utils_memset((PBYTE)&winApi, 0, sizeof(winApi));
+    memset((PBYTE)&winApi, 0, sizeof(winApi));
     winapiFunctionsCount = 0;
 }
 
@@ -168,7 +159,7 @@ VOID Utils_copyStringW(PWSTR dest, PCWSTR src, UINT count)
     memcpy((PBYTE)dest, (PBYTE)src, count * sizeof(WCHAR));
     UINT srcLength = lstrlenW(src);
     if (count > srcLength)
-        Utils_memset((PBYTE)(dest + srcLength), 0, (count - srcLength) * sizeof(WCHAR));
+        memset((PBYTE)(dest + srcLength), 0, (count - srcLength) * sizeof(WCHAR));
 }
 
 Data data;
@@ -223,7 +214,7 @@ VOID Utils_copyStringW2(PWSTR dest, PCWSTR src)
     memcpy((PBYTE)dest, (PBYTE)src, 512 * sizeof(WCHAR));
     INT srcLength = lstrlenW(src);
     if (srcLength < 512)
-        Utils_memset((PBYTE)(dest + srcLength), 0, (512 - srcLength) * sizeof(WCHAR));
+        memset((PBYTE)(dest + srcLength), 0, (512 - srcLength) * sizeof(WCHAR));
 }
 
 // E8 ? ? ? ? 8D 44 24 48 (relative jump)
@@ -338,7 +329,7 @@ BOOLEAN Utils_retrieveAsnValue(AsnInteger32* out)
 // 83 EC 10 53 55
 BOOLEAN Utils_findAsnString(AsnInteger32 asnValue, PBYTE out)
 {
-    Utils_memset(out, 0, 6);
+    memset(out, 0, 6);
     SnmpVarBindList varBindList;
     varBindList.len = 1;
 

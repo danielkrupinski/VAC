@@ -26,9 +26,6 @@ BOOL Utils_heapFree(LPVOID);
 // 83 61 10 00 83 61 14 00
 VOID Utils_initializeMD5(DWORD*);
 
-// 8B 4C 24 0C 85 C9
-PBYTE Utils_memset(PBYTE, INT, INT);
-
 // 8B 44 24 0C 53
 INT Utils_memcmp(PVOID, PVOID, SIZE_T);
 
