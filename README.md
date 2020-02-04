@@ -10,7 +10,7 @@ Valve Anti-Cheat (VAC) is user-mode noninvasive anti-cheat system developed by V
 | --- | --- | --- | --- |
 | 1 | Collect information about system configuration.<br>This module is loaded first and sometimes even before any VAC-secured game is launched. | 0x5C00 | Modules/SystemInfo
 | 2 | Enumerate running processes and handles.<br>This module is loaded shortly after game is launched but also repeatedly later. | 0x4A00 | Modules/ProcessHandleList
-| 3 | Collect `VacProcessMonitor` data from filemapping created by `steamservice.dll`. | 0x6600 | Modules/ProcessMonitor
+| 3 | Collect `VacProcessMonitor` data from filemapping created by `steamservice.dll`. It's the first module observed to use `virtual methods (polymorphism)`. | 0x6600 | Modules/ProcessMonitor
 
 ## Encryption / Hashing
 VAC uses several encryption / hashing methods:
@@ -79,3 +79,5 @@ VAC gathers data of max. 10 volumes.
 If this module was streamed after VAC-secured game had started, it attemps to get handle to the game process (using `OpenProcess` API).
 
 Eventually, module encrypts data (2048 bytes), DWORD by DWORD XORing with key received from server (e.g 0x1D4855D3)
+
+### #2 - ProcessHandleList
