@@ -1,8 +1,8 @@
 # VAC 🛡️
-This repository contains parts of source code of Valve Anti-Cheat recreated from machine code.
+This repository contains parts of source code of Valve Anti-Cheat for Windows systems recreated from machine code.
 
 # Introduction
-Valve Anti-Cheat (VAC) is user-mode noninvasive anti-cheat system developed by Valve. It is delivered in form of modules (dlls) streamed from the remote server. `steamservice.dll` loaded into `SteamService.exe` (or `Steam.exe` if run as admin) prepares and runs anti-cheat modules. Client VAC infrastructure is built using `C++` (indicated by many `thiscall` convention functions present in disassembly) but this repo contains `C` code for simplicity.
+Valve Anti-Cheat (VAC) is user-mode noninvasive anti-cheat system developed by Valve. It is delivered in form of modules (dlls) streamed from the remote server. `steamservice.dll` loaded into `SteamService.exe` (or `Steam.exe` if run as admin) prepares and runs anti-cheat modules. Client VAC infrastructure is built using `C++` (indicated by many `thiscall` convention functions present in disassembly) but this repo contains `C` code for simplicity. Anti-cheat binaries are currently `32-bit`.
 
 # Modules
 | ID | Purpose | .text section raw size | Source folder |
