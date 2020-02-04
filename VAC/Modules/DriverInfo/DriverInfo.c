@@ -20,8 +20,8 @@ BOOLEAN DriveInfo_getFileInfo(PCWSTR fileName, DWORD* volumeSerialNumber, DWORD 
         return FALSE;
 
     *volumeSerialNumber = fileInformation.dwVolumeSerialNumber;
-    Utils_memcpy(&fileIndex[0], &fileInformation.nFileIndexLow, sizeof(DWORD));
-    Utils_memcpy(&fileIndex[1], &fileInformation.nFileIndexHigh, sizeof(DWORD));
+    memcpy(&fileIndex[0], &fileInformation.nFileIndexLow, sizeof(DWORD));
+    memcpy(&fileIndex[1], &fileInformation.nFileIndexHigh, sizeof(DWORD));
 
     return TRUE;
 }
@@ -87,7 +87,7 @@ DWORD DriverInfo_getDriverInfo(DriverInfo* data, INT driverNameHash)
                                 // something if driver path contains "system32"
 
                                 // TODO: sub_10004F09(system32InPath + 9, system32InPath + 8, lstrlenW(system32InPath + 8) * sizeof(WCHAR));
-                                Utils_memcpy((PWSTR)system32InPath + 3, L"native", lstrlenW(L"native") * sizeof(WCHAR));
+                                memcpy((PWSTR)system32InPath + 3, L"native", lstrlenW(L"native") * sizeof(WCHAR));
                             }
                             DriveInfo_getFileInfo(driverPath, &data->volumeSerial, data->fileIndex);
                             winApi.CloseServiceHandle(service);

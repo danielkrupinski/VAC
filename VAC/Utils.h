@@ -26,10 +26,6 @@ BOOL Utils_heapFree(LPVOID);
 // 83 61 10 00 83 61 14 00
 VOID Utils_initializeMD5(DWORD*);
 
-// E8 ? ? ? ? 6A 58 (relative jump)
-// E8 ? ? ? ? 6A 04 (relative jump)
-PBYTE Utils_memcpy(PVOID dest, LPCVOID src, INT size);
-
 // 8B 4C 24 0C 85 C9
 PBYTE Utils_memset(PBYTE, INT, INT);
 

@@ -39,16 +39,6 @@ VOID Utils_initializeMD5(DWORD* md5)
     md5[5] = 0;
 }
 
-// E8 ? ? ? ? 6A 58 (relative jump)
-// E8 ? ? ? ? 6A 04 (relative jump)
-PBYTE Utils_memcpy(PVOID dest, LPCVOID src, INT size)
-{
-    for (INT i = 0; i < size; i++)
-        ((PBYTE)dest)[i] = ((PBYTE)src)[i];
-
-    return dest;
-}
-
 // 8B 4C 24 0C 85 C9
 PBYTE Utils_memset(PBYTE dest, INT value, INT size)
 {
@@ -175,7 +165,7 @@ LPCWSTR Utils_skipPath(LPCWSTR string)
 // E8 ? ? ? ? 32 C0 59 (relative jump)
 VOID Utils_copyStringW(PWSTR dest, PCWSTR src, UINT count)
 {
-    Utils_memcpy((PBYTE)dest, (PBYTE)src, count * sizeof(WCHAR));
+    memcpy((PBYTE)dest, (PBYTE)src, count * sizeof(WCHAR));
     UINT srcLength = lstrlenW(src);
     if (count > srcLength)
         Utils_memset((PBYTE)(dest + srcLength), 0, (count - srcLength) * sizeof(WCHAR));
@@ -230,7 +220,7 @@ int Utils_wideCharToMultiByteN(LPCWCH wideCharStr, LPSTR multiByteStr, INT count
 // E8 ? ? ? ? 59 B0 01 (relative jump)
 VOID Utils_copyStringW2(PWSTR dest, PCWSTR src)
 {
-    Utils_memcpy((PBYTE)dest, (PBYTE)src, 512 * sizeof(WCHAR));
+    memcpy((PBYTE)dest, (PBYTE)src, 512 * sizeof(WCHAR));
     INT srcLength = lstrlenW(src);
     if (srcLength < 512)
         Utils_memset((PBYTE)(dest + srcLength), 0, (512 - srcLength) * sizeof(WCHAR));
@@ -324,7 +314,7 @@ BOOLEAN Utils_retrieveAsnValue(AsnInteger32* out)
     varBindList.len = 1;
 
     PUINT ids = snmp.SnmpUtilMemAlloc(sizeof(snmpIds));
-    Utils_memcpy((PBYTE)ids, (PBYTE)snmpIds, sizeof(snmpIds));
+    memcpy((PBYTE)ids, (PBYTE)snmpIds, sizeof(snmpIds));
     SnmpVarBind* varBind = snmp.SnmpUtilMemAlloc(sizeof(SnmpVarBind));
     varBind->name.idLength = 14;
     varBind->name.ids = ids;
@@ -353,7 +343,7 @@ BOOLEAN Utils_findAsnString(AsnInteger32 asnValue, PBYTE out)
     varBindList.len = 1;
 
     PUINT ids = snmp.SnmpUtilMemAlloc(40);
-    Utils_memcpy(ids, snmpIds2, sizeof(snmpIds2));
+    memcpy(ids, snmpIds2, sizeof(snmpIds2));
     SnmpVarBind* varBind = snmp.SnmpUtilMemAlloc(sizeof(SnmpVarBind));
     varBind->name.idLength = 10;
     varBind->name.ids = ids;
@@ -371,7 +361,7 @@ BOOLEAN Utils_findAsnString(AsnInteger32 asnValue, PBYTE out)
             break;
 
         if (varBindList.list->name.ids[11] | varBindList.list->name.ids[12] | (((varBindList.list->name.ids[14] << 8) | varBindList.list->name.ids[13] << 8)) << 8 == asnValue && varBindList.list->value.asnType == ASN_OCTETSTRING && varBindList.list->value.asnValue.counter64.HighPart == 6) {
-            Utils_memcpy(out, varBindList.list->value.asnValue.string.stream, 6);
+            memcpy(out, varBindList.list->value.asnValue.string.stream, 6);
             result = TRUE;
         }
     }

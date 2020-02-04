@@ -150,7 +150,7 @@ INT SystemInfo_collectData(PVOID unk, PVOID unk1, DWORD data[2048], PDWORD dataS
                         SYSTEM_BOOT_ENVIRONMENT_INFORMATION sbei;
                         Utils_memset(&sbei, 0, sizeof(sbei));
                         data[24] = _ntQuerySystemInformation(SystemBootEnvironmentInformation, &sbei, sizeof(sbei), NULL);
-                        Utils_memcpy(&data[28], &sbei.BootIdentifier, sizeof(sbei.BootIdentifier));
+                        memcpy(&data[28], &sbei.BootIdentifier, sizeof(sbei.BootIdentifier));
 
                         SYSTEM_RANGE_START_INFORMATION srsi;
                         data[25] = _ntQuerySystemInformation(SystemRangeStartInformation, &srsi, sizeof(srsi), NULL);
@@ -168,7 +168,7 @@ INT SystemInfo_collectData(PVOID unk, PVOID unk1, DWORD data[2048], PDWORD dataS
 
                         if (currentExeLen) {
                             data[36] = 0;
-                            Utils_memcpy(&data[37], &currentExe[currentExeLen >= 36 ? currentExeLen - 36 : 0], 36);
+                            memcpy(&data[37], &currentExe[currentExeLen >= 36 ? currentExeLen - 36 : 0], 36);
                         } else {
                             data[36] = GetLastError();
                         }
@@ -191,7 +191,7 @@ INT SystemInfo_collectData(PVOID unk, PVOID unk1, DWORD data[2048], PDWORD dataS
                             }
 
                             systemDir[systemDirLen] = L'\\';
-                            Utils_memcpy(systemDir[systemDirLen + 1], ntDllWide, sizeof(ntDllWide));
+                            memcpy(systemDir[systemDirLen + 1], ntDllWide, sizeof(ntDllWide));
 
                             BOOLEAN fsRedirDisabled = FALSE;
                             if (_wow64EnableWow64FsRedirection)
@@ -226,8 +226,8 @@ INT SystemInfo_collectData(PVOID unk, PVOID unk1, DWORD data[2048], PDWORD dataS
                                 }
                                 data[180] = moduleHandlesCount;
                                 data[181] = winapiFunctionsCount;
-                                Utils_memcpy(&data[182], moduleHandles, sizeof(moduleHandles) /* == 64 */);
-                                Utils_memcpy(&data[198], &winApi, 640);
+                                memcpy(&data[182], moduleHandles, sizeof(moduleHandles) /* == 64 */);
+                                memcpy(&data[198], &winApi, 640);
                                 data[358] = (DWORD)_ReturnAddress() & 0xFFFF0000;
                                 data[359] = *(DWORD*)((DWORD)_ReturnAddress() & 0xFFFF0000);
                                 data[360] = *(DWORD*)((DWORD)_ReturnAddress() & 0xFFFF0000 + 0x114);
@@ -298,8 +298,8 @@ BOOLEAN SystemInfo_getFileInfo(PCWSTR fileName, DWORD* volumeSerialNumber, PLARG
         return 0;
     }
     
-    Utils_memcpy(&fileId->LowPart, &fileInfo.FileId.LowPart, sizeof(DWORD));
-    Utils_memcpy(&fileId->HighPart, &fileInfo.FileId.HighPart, sizeof(LONG));
+    memcpy(&fileId->LowPart, &fileInfo.FileId.LowPart, sizeof(DWORD));
+    memcpy(&fileId->HighPart, &fileInfo.FileId.HighPart, sizeof(LONG));
     return TRUE;
 }
 
