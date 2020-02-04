@@ -1,27 +1,26 @@
 # VAC 🛡️
 This repository contains parts of source code of Valve Anti-Cheat recreated from machine code.
 
-## Introduction
+# Introduction
 Valve Anti-Cheat (VAC) is user-mode noninvasive anti-cheat system developed by Valve. It is delivered in form of modules (dlls) streamed from the remote server. `steamservice.dll` loaded into `SteamService.exe` (or `Steam.exe` if run as admin) prepares and runs anti-cheat modules. Client VAC infrastructure is built using `C++` (indicated by many `thiscall` convention functions present in disassembly) but this repo contains `C` code for simplicity.
 
-
-## Modules
+# Modules
 | ID | Purpose | .text section raw size | Source folder |
 | --- | --- | --- | --- |
 | 1 | Collect information about system configuration.<br>This module is loaded first and sometimes even before any VAC-secured game is launched. | 0x5C00 | Modules/SystemInfo
 | 2 | Enumerate running processes and handles.<br>This module is loaded shortly after game is launched but also repeatedly later. | 0x4A00 | Modules/ProcessHandleList
 | 3 | Collect `VacProcessMonitor` data from filemapping created by `steamservice.dll`. It's the first module observed to use `virtual methods (polymorphism)`. | 0x6600 | Modules/ProcessMonitor
 
-## Encryption / Hashing
+# Encryption / Hashing
 VAC uses several encryption / hashing methods:
 - MD5 - hashing data read from process memory
 - ICE - decryption of imported functions names and encryption of scan results
 - CRC32 - hashing table of WinAPI functions addresses
 - Xor - encryption of function names on stack, e.g `NtQuerySystemInformation`. Strings are xor-ed with `^` or `>` or `&` char.
 
-## Module Description
+# Module Description
 
-### #1 - SystemInfo
+## #1 - SystemInfo
 This module is loaded first and sometimes even before any VAC-secured game is launched.
 
 At first module invokes [`GetVersion`](https://docs.microsoft.com/en-us/windows/win32/api/sysinfoapi/nf-sysinfoapi-getversion) function to retrieve **major and build** system version e.g `0x47BB0A00` - which means:
@@ -80,4 +79,17 @@ If this module was streamed after VAC-secured game had started, it attemps to ge
 
 Eventually, module encrypts data (2048 bytes), DWORD by DWORD XORing with key received from server (e.g 0x1D4855D3)
 
-### #2 - ProcessHandleList
+## #2 - ProcessHandleList
+
+To be disclosed...
+
+## #3 - ProcessMonitor
+
+This module seems to be relatively `new` or was disabled for a long time. First time I saw this module in `January 2020`. It has an ability to perform many different types of scans (currently `3`). Further scans depends on the results of previous ones.
+
+Each scan type implements `four methods` of a base class.
+
+Initially VAC server instructs client to perform `scan #1`.
+
+### Scan #1 - VacProcessMonitor filemapping
+
