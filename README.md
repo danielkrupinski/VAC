@@ -93,7 +93,7 @@ Initially VAC server instructs client to perform `scan #1`.
 
 ### Scan #1 - VacProcessMonitor filemapping
 
-First scan function attemps to `Steam_{E9FD3C51-9B58-4DA0-962C-734882B19273}_Pid:%000008X` filemapping. The mapping has following layout:
+First scan function attemps to open `Steam_{E9FD3C51-9B58-4DA0-962C-734882B19273}_Pid:%000008X` filemapping. The mapping has following layout:
 
 ```cpp
 struct VacProcessMonitorMapping {
@@ -102,4 +102,4 @@ struct VacProcessMonitorMapping {
 }; // sizeof(VacProcessMonitorMapping) == 8
 ```
 
-`VacProcessMonitorMapping::vacProcessMonitor` is a pointer to the `VacProcessMonitor` object (size of which exceeds `292 bytes`)
+`VacProcessMonitorMapping::vacProcessMonitor` is a pointer to the `VacProcessMonitor` object (size of which is `292 bytes`)
