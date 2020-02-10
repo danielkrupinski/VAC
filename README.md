@@ -102,4 +102,13 @@ struct VacProcessMonitorMapping {
 }; // sizeof(VacProcessMonitorMapping) == 8
 ```
 
-`VacProcessMonitorMapping::vacProcessMonitor` is a pointer to the `VacProcessMonitor` object (size of which is `292 bytes`)
+`VacProcessMonitorMapping::vacProcessMonitor` is a pointer to the `VacProcessMonitor` object (size of which is `292 bytes`).
+
+VAC then reads the whole `VacProcessMonitor` object (292 bytes) and its VMT (Virtual Method Table) containing pointers to `6` methods (24 bytes).
+The base address of `steamservice.dll` is also gathered.
+
+These data are probably used on VAC servers to detect hooking `VacProcessMonitor`. The procedure may be following:
+```cpp
+if (method_ptr & 0xFFFF0000 != steamservice_base)
+    hook_detected();
+```
