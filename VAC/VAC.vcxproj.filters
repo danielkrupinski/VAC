@@ -30,6 +30,9 @@
     <Filter Include="Modules\ProcessMonitor">
       <UniqueIdentifier>{4a25f63e-9f52-498d-8426-35ef45be3823}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Modules\ReadModules">
+      <UniqueIdentifier>{d6402769-90dd-4cd0-941a-0b4de4c3ce81}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Utils.h">
@@ -55,6 +58,9 @@
     </ClInclude>
     <ClInclude Include="Modules\ProcessMonitor\ProcessMonitor.h">
       <Filter>Modules\ProcessMonitor</Filter>
+    </ClInclude>
+    <ClInclude Include="Modules\ReadModules\ReadModules.h">
+      <Filter>Modules\ReadModules</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
