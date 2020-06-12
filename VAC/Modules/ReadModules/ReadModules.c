@@ -5,6 +5,7 @@ BOOL (WINAPI* openProcessToken)(HANDLE ProcessHandle, DWORD DesiredAccess, PHAND
 BOOL (WINAPI* lookupPrivilegeValueA)(LPCSTR lpSystemName, LPCSTR lpName, PLUID lpLuid);
 BOOL (WINAPI* adjustTokenPrivileges)(HANDLE TokenHandle, BOOL DisableAllPrivileges, PTOKEN_PRIVILEGES NewState, DWORD BufferLength, PTOKEN_PRIVILEGES PreviousState, PDWORD ReturnLength);
 
+//  55 8B EC 83 EC 1C
 VOID ReadModules_enableDebugPrivilege(VOID)
 {
     if (!openProcessToken || !lookupPrivilegeValueA || !adjustTokenPrivileges)
