@@ -88,5 +88,8 @@
     <ClCompile Include="Modules\ProcessMonitor\ProcessMonitor.c">
       <Filter>Modules\ProcessMonitor</Filter>
     </ClCompile>
+    <ClCompile Include="Modules\ReadModules\ReadModules.c">
+      <Filter>Modules\ReadModules</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
