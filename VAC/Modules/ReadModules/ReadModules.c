@@ -25,3 +25,27 @@ VOID ReadModules_enableDebugPrivilege(VOID)
         winApi.CloseHandle(tokenHandle);
     }
 }
+
+// 55 8B EC A1
+BOOLEAN ReadModules_getFileInformation(LPCWSTR filename, ReadModules_FileInfo* out)
+{
+    if (!winApi.GetFileInformationByHandle)
+        return FALSE;
+
+    HANDLE handle = winApi.CreateFileW(filename, READ_CONTROL | SYNCHRONIZE | FILE_READ_DATA | FILE_READ_EA | FILE_READ_ATTRIBUTES, FILE_SHARE_READ, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
+    if (handle == INVALID_HANDLE_VALUE)
+        return FALSE;
+
+    BY_HANDLE_FILE_INFORMATION fileInfo;
+    BOOL success = winApi.GetFileInformationByHandle(handle, &fileInfo);
+    winApi.CloseHandle(handle);
+
+    if (!success)
+        return FALSE;
+
+    out->volumeSerialNumber = fileInfo.dwVolumeSerialNumber;
+    memcpy(&out->fileIndexLow, &fileInfo.nFileIndexLow, sizeof(DWORD));
+    memcpy(&out->fileIndexHigh, &fileInfo.nFileIndexHigh, sizeof(DWORD));
+   
+    return TRUE;
+}
